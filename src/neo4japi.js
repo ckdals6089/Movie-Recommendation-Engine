@@ -1,4 +1,4 @@
-require('file?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');var api = require('./neo4jApi');
+require('file?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');
 
 var _ = require('lodash');
 
