@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "webpack-cli": "^2.1.4"
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
   },
   "name": "stnetplex",
   "version": "1.0.0",

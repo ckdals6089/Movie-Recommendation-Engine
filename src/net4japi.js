@@ -1,107 +1,87 @@
+require('file?name=[name].[ext]!../node_modules/neo4j-driver/lib/browser/neo4j-web.min.js');var api = require('./neo4jApi');
 
-var api = require('./neo4jApi');
+var _ = require('lodash');
 
-$(function () {
-    renderGraph();
-    search();
-  
-    $("#search").submit(e => {
-      e.preventDefault();
-      search();
-    });
-  });
+var neo4j = window.neo4j.v1;
+var driver = neo4j.driver("bolt://127.0.0.1:7687", neo4j.auth.basic("neo4j", "12345"));
 
-function showMovie(paramName) {
-    api
-      .getMovie(paramName)
-      .then(movie => {
-        if (!movie) return;
-        $("#title").text(paramName);
-        $("#poster").attr("src", "http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/" + title + ".jpg");
-        var $list = $("#crew").empty();
-        movie.cast.forEach(cast => {
-          $list.append($("<li>" + cast.name + " " + cast.job + (cast.job == "acted" ? " as " + cast.role : "") + "</li>"));
-        });
-      }, "json");
-  }
 
-  
-function search() {
-  var query = $("#search").find("input[name=search]").val();
-  
-  api
-    .searchMovies(query)
-    .then(movies => {
-      var t = $("table#results tbody").empty();
-      if (movies) {
-       
-        movies.forEach(movie => {
-          var title = movie.title
-          var released = movie.released
-          var tagline = movie.tagline
-          $("<tr><td class='movie'>" + title + "</td><td>" + released + "</td><td>" + tagline + "</td></tr>").appendTo(t)
-            .click(function() {
-              showMovie(title,released);
-            })
-        });
-        var first = movies[10];
-        if (first) {
-          showMovie(first.title);
-        }
-      }  
-  });
-}
-
-function renderGraph() {
-  var width = 800, height = 800;
-  var force = d3.layout.force()
-    .charge(-200).linkDistance(30).size([width, height]);
-
-  var svg = d3.select("#graph").append("svg")
-    .attr("width", "100%").attr("height", "100%")
-    .attr("pointer-events", "all");
-
-  api
-    .getGraph()
-    .then(graph => {
-      force.nodes(graph.nodes).links(graph.links).start();
-
-      var link = svg.selectAll(".link")
-        .data(graph.links).enter()
-        .append("line").attr("class", "link");
-
-      var node = svg.selectAll(".node")
-        .data(graph.nodes).enter()
-        .append("circle")
-        .attr("class", d => {
-          return "node " + d.label
-        })
-        .attr("r", 10)
-        .call(force.drag);
-
-      // html title attribute
-      node.append("title")
-        .text(d => {
-          return d.title;
-        });
-
-      // force feed algo ticks
-      force.on("tick", () => {
-        link.attr("x1", d => {
-          return d.source.x;
-        }).attr("y1", d => {
-          return d.source.y;
-        }).attr("x2", d => {
-          return d.target.x;
-        }).attr("y2", d => {
-          return d.target.y;
-        });
-
-        node.attr("cx", d => {
-          return d.x;
-        }).attr("cy", d => {
-          return d.y;
-        });
+function searchMovies(queryString) {
+  var session = driver.session();
+  return session
+    .run(
+      'MATCH (movie:Movie) \
+      WHERE movie.title =~ {title} \
+      RETURN movie',
+      {title: '(?i).*' + queryString + '.*'}
+    )
+    .then(result => {
+      session.close();
+      return result.records.map(record => {
+        return new Movie(record.get('movie'));
       });
+    })
+    .catch(error => {
+      session.close();
+      throw error;
     });
 }
+
+function getMovie(title) {
+  var session = driver.session();
+  return session
+    .run(
+      "MATCH (movie:Movie {title:{title}}) \
+      OPTIONAL MATCH (movie)<-[r]-(person:Person) \
+      RETURN movie.title AS title, \
+      collect([person.name, \
+           head(split(lower(type(r)), '_')), r.roles]) AS cast \
+      LIMIT 1", {title})
+    .then(result => {
+      session.close();
+
+      if (_.isEmpty(result.records))
+        return null;
+
+      var record = result.records[0];
+      return new MovieCast(record.get('title'), record.get('cast'));
+    })
+    .catch(error => {
+      session.close();
+      throw error;
+    });
+}
+
+function getGraph() {
+  var session = driver.session();
+  return session.run(
+    'MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) \
+    RETURN m.title AS movie, collect(a.name) AS cast \
+    LIMIT {limit}', {limit: 100})
+    .then(results => {
+      session.close();
+      var nodes = [], rels = [], i = 0;
+      results.records.forEach(res => {
+        nodes.push({title: res.get('movie'), label: 'movie'});
+        var target = i;
+        i++;
+
+        res.get('cast').forEach(name => {
+          var actor = {title: name, label: 'actor'};
+          var source = _.findIndex(nodes, actor);
+          if (source == -1) {
+            nodes.push(actor);
+            source = i;
+            i++;
+          }
+          rels.push({source, target})
+        })
+      });
+
+      return {nodes, links: rels};
+    });
+}
+
+exports.searchMovies = searchMovies;
+exports.getMovie = getMovie;
+exports.getGraph = getGraph;
