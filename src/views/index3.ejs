@@ -60,7 +60,7 @@
 <h1 id="h1">Movies</h1>
 
 <form method="post" action="/movies/search">
-    <label>Search Movie</label><br>
+    <label>Search Movie</label>
     <input type="text" id="txtMovie" name="searchMovie"><br>    
     <input type="submit" value="Submit">
 </form>
@@ -73,19 +73,23 @@
 
 <table id="table1" style="border-style:double;">
     <tr>
-        <th>TITLE</th>
-        <th>POSTER</td>
-        <th>CREW</td>
+        <th>ID</th>
+        <th>Title</td>
+        <th>name</td>
+        <th>Born</th>
     </tr>
 <% movieDescription.forEach(function(description){ %>
     <tr>
-        <td id="title"> <%= search.id %> </td>
-        <td id="poster"> <%= search.id %> </td>
-        <td> <%= search.id %>  </td>
+        <td> <%= description.id %> </td>
+        <td> <%= description.title %> </td>
+        <td> <%= description.name %> </td>
+        <td>  <%= description.born %>    </ul>
+        </td>
     </tr>
     <% }) %>
 
 </table>
+
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>

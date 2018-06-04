@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-function MovieCast(title, cast) {
+function MovieCast(x, m) {
   _.extend(this, {
     title: title,
     cast: cast.map(function (c) {

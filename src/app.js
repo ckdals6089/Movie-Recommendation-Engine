@@ -82,7 +82,8 @@ router.route('/movies/search').post(function(req,res){
       movieArr.push({
           id:record._fields[0].identity.low,
           title: record._fields[0].properties.title,
-          tagline: record._fields[0].properties.tagline
+          tagline: record._fields[0].properties.tagline,
+          released: record._fields[0].properties.released,
       });
   });     
   res.render('index2', {
@@ -98,22 +99,35 @@ router.route('/movies/search').post(function(req,res){
 // Descript specific Movie
 router.route('/movies/search/description').post(function(req,res){
   var paramName2 = req.body.descriptionMovie;
-  
+
   session
   
-  .run("MATCH (n:Person)-[:ACTED_IN]->(movie{title:{title}})<-[:DIRECTED]-(director)\
-  RETURN movie.title, director.name limit 200",{title: '(?i).*' + paramName2 + '.*'})
+  .run("MATCh (m:Movie) WHERE m.title =~ {title}\
+  OPTIONAL MATCH (x:Person)- [:ACTED_IN] -> (m) return x,m limit 4",
+ {title: '(?i).*' + paramName2 + '.*'})
  
-  .then(result => {
+  .then(result => {  
+  //  if (_.isEmpty(result.records))
+  //  return null;
+
+  //  var record = result.records[0];
+  //  return new MovieCast(record.get('title'), record.get('cast'));
+  //  $("#title").text(paramName2);
+  //  $("#poster").attr("src", "http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/" + paramName2 + ".jpg");
+  //  var $list = $("#crew").empty();
+  //  result.m.forEach(m => {
+  //    $list.append($("<li>" + m.name + " " + m.job + (m.job == "acted" ? " as " + m.role : "") + "</li>"));
+  //  });    
 
    var movieArr2 = [];
-    result.records.forEach(function(record){
-     movieArr2.push({
-         id:record._fields[0].identity.low,
-         title: record._fields[0].properties.title,
-         tagline: record._fields[0].properties.tagline
-     });
- });     
+   result.records.forEach(function(record){
+      movieArr2.push({
+          id:record._fields[0].identity.low,
+          title: record._fields[1].properties.title,
+          name: record._fields[0].properties.name,
+          born: record._fields[0].properties.born,
+      });
+  });     
       res.render('index3', {
         movieDescription: movieArr2
  });   
@@ -124,30 +138,6 @@ router.route('/movies/search/description').post(function(req,res){
     });
 }) 
 
-function getMovie(title) {
-  var session = driver.session();
-  return session
-    .run(
-      "MATCH (movie:Movie {title:{title}}) \
-      OPTIONAL MATCH (movie)<-[r]-(person:Person) \
-      RETURN movie.title AS title, \
-      collect([person.name, \
-           head(split(lower(type(r)), '_')), r.roles]) AS cast \
-      LIMIT 1", {title})
-    .then(result => {
-      session.close();
-
-      if (_.isEmpty(result.records))
-        return null;
-
-      var record = result.records[0];
-      return new MovieCast(record.get('title'), record.get('cast'));
-    })
-    .catch(error => {
-      session.close();
-      throw error;
-    });
-}
 app.listen(3000);
 app.use('/', router);
 module.exports = app;
