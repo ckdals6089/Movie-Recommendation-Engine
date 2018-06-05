@@ -1,48 +1,87 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 
-const movieRouter = express.Router();
+var neo4j = require('neo4j-driver').v1;
+var morgan = require('morgan');
+var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+var router = express.Router();
+var _ = require('lodash');
 
-movieRouter.use(bodyParser.json()); 
 
-movieRouter.route('/')
-.all((req, res, next) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  next();
+const hostname = 'localhost';
+var app = express();
+
+
+const showRouter = express.Router();
+
+showRouter.use(bodyParser.json()); 
+
+showRouter.route('/')
+
+//view Engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ exteneded : false}));
+app.use(express.static(path.join(__dirname, 'public')));
+
+//connect Neo4j with node.js
+var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12345'));
+var session = driver.session();
+
+
+// function Show Movies
+showRouter.post('/movies', (req, res) =>{
+  session
+  .run('MATCH(n:Movie) RETURN n ')
+   .then(function(result){
+
+  var movieArr = [];
+
+   result.records.forEach(function(record){
+      movieArr.push({
+
+          id: record._fields[0].identity.low,
+          title: record._fields[0].properties.title,
+          tagline: record._fields[0].properties.tagline
+      });
+  });     
+  res.render('index', {
+      movies: movieArr
+  });
 })
-.get((req, res, next) => {
-  res.end('Will send all movies to client');
-})
-.post((req, res, next) => {
-  res.end('Will add the movie: ' + req.body.name + 
-    ' with details: ' + req.body.description);
-})
-.put((req, res, next) => {
-  res.statusCode = 403;
-  res.end('PUT operation not supported on /movies');
-})
-.delete((req, res, next) => {
-  res.end('Deleting all movies!');
+.catch(function(err){
+  console.log(err)
+  });
 });
 
-movieRouter.route('/:movieId')
-.get((req, res, next) => {
-  res.end('Will send details of movie: ' +
-    req.params.movieId + ' to you!');
-})  
-.post((req, res, next) => {
-  res.statusCode = 403;
-  res.end('POST operation not supported on /movies/' + 
-    req.params.movieId);
+// function Show Movies
+showRouter.get('/movies', (req, res) =>{
+  session
+  .run('MATCH(n:Movie) RETURN n ')
+   .then(function(result){
+
+  var movieArr = [];
+
+   result.records.forEach(function(record){
+      movieArr.push({
+
+          id: record._fields[0].identity.low,
+          title: record._fields[0].properties.title,
+          tagline: record._fields[0].properties.tagline
+      });
+  });     
+  res.render('index', {
+      movies: movieArr
+  });
 })
-.put((req, res, next) => {
-  res.write('Update the movie: ' + req.params.movieId + '\n');
-  res.end('Will update the movie: ' + req.body.name + 
-    ' with details: ' +  req.body.description);
-})
-.delete((req, res, next) => {
-  res.end('Deleting movie: ' + req.params.movieId);
+.catch(function(err){
+  console.log(err)
+  });
 });
 
-module.exports = movieRouter;
+
+
+module.exports = showRouter;

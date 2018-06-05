@@ -1,8 +1,3 @@
-
-// var api = require('./neo4jApi');
-
-var Movie = require('./models/Movie');
-var MovieCast = require('./models/MovieCast');
 var neo4j = require('neo4j-driver').v1;
 var morgan = require('morgan');
 var express = require('express');
@@ -11,7 +6,12 @@ var bodyParser = require('body-parser');
 var router = express.Router();
 var _ = require('lodash');
 
-const movieRouter = require('./routes/movieRouter');
+const showRouter = require('./routes/movieRouter');
+const searchRouter = require('./routes/movieSearch');
+const descriptionRouter = require('./routes/movieDescription');
+// const sqlRouter = require('./routes/sqlconnect');
+
+
 const hostname = 'localhost';
 var app = express();
 
@@ -41,102 +41,19 @@ app.get('', function(req, res){
   });
 
 });
-// function Search Movies
-router.route('/movies').get(function(req, res){
-  session
-  .run('MATCH(n:Movie) RETURN n ')
-   .then(function(result){
-  var movieArr = [];
-   result.records.forEach(function(record){
-      movieArr.push({
-          id: record._fields[0].identity.low,
-          title: record._fields[0].properties.title,
-          tagline: record._fields[0].properties.tagline
-      });
-  });     
-  res.render('index', {
-      movies: movieArr
-  });
-})
-.catch(function(err){
-  console.log(err)
-  });
-});
 
+//Show Movies Router
+app.use(showRouter)
 
+//Search Movies Router
+app.use(searchRouter)
 
-// Search specific Movie
-router.route('/movies/search').post(function(req,res){
-  var paramName = req.body.searchMovie;
-  session
-  
-  .run(' MATCH (n:Movie) \
-  WHERE n.title =~ {title} \
-  RETURN n',
-  {title: '(?i).*' + paramName + '.*'})
-  
-  .then(function(result){
-  
-  var movieArr = [];
-   result.records.forEach(function(record){
-      movieArr.push({
-          id:record._fields[0].identity.low,
-          title: record._fields[0].properties.title,
-          tagline: record._fields[0].properties.tagline,
-          released: record._fields[0].properties.released,
-      });
-  });     
-  res.render('index2', {
-      moviesearch: movieArr
-  }); 
-  console.log(movieArr)
-})
-.catch(function(err){
-  console.log(err)
-  });
-}) 
+//Descript Movie Router
+app.use(descriptionRouter)
 
-// Descript specific Movie
-router.route('/movies/search/description').post(function(req,res){
-  var paramName2 = req.body.descriptionMovie;
+//SQL Router
+// app.use(sqlRouter);
 
-  session
-  
-  .run("MATCh (m:Movie) WHERE m.title =~ {title}\
-  OPTIONAL MATCH (x:Person)- [:ACTED_IN] -> (m) return x,m limit 4",
- {title: '(?i).*' + paramName2 + '.*'})
- 
-  .then(result => {  
-  //  if (_.isEmpty(result.records))
-  //  return null;
-
-  //  var record = result.records[0];
-  //  return new MovieCast(record.get('title'), record.get('cast'));
-  //  $("#title").text(paramName2);
-  //  $("#poster").attr("src", "http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/" + paramName2 + ".jpg");
-  //  var $list = $("#crew").empty();
-  //  result.m.forEach(m => {
-  //    $list.append($("<li>" + m.name + " " + m.job + (m.job == "acted" ? " as " + m.role : "") + "</li>"));
-  //  });    
-
-   var movieArr2 = [];
-   result.records.forEach(function(record){
-      movieArr2.push({
-          id:record._fields[0].identity.low,
-          title: record._fields[1].properties.title,
-          name: record._fields[0].properties.name,
-          born: record._fields[0].properties.born,
-      });
-  });     
-      res.render('index3', {
-        movieDescription: movieArr2
- });   
-    console.log(movieArr2)
-  })
-.catch(function(err){
-    console.log(err)
-    });
-}) 
 
 app.listen(3000);
 app.use('/', router);

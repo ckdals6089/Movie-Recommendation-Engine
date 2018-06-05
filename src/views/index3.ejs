@@ -73,32 +73,21 @@
 
 <table id="table1" style="border-style:double;">
     <tr>
-        <th>ID</th>
-        <th>Title</td>
+        
         <th>name</td>
         <th>Born</th>
     </tr>
-<% movieDescription.forEach(function(description){ %>
-    <tr>
-        <td> <%= description.id %> </td>
-        <td> <%= description.title %> </td>
-        <td> <%= description.name %> </td>
-        <td>  <%= description.born %>    </ul>
-        </td>
-    </tr>
-    <% }) %>
+
+    <% movieDescription.forEach(function(description){ %>
+        <tr>
+            <td> <%= description.name %> </td>
+            <td>  <%= description.born %> </td>
+        </tr>
+        <% }) %>
+
 
 </table>
 
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="neo4j-web.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
-<script language="JavaScript" type="text/javascript" src="/js/jquery-ui-personalized-1.5.2.packed.js"></script>
-<script language="JavaScript" type="text/javascript" src="/js/sprinkle.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </body>
 <!-- </div> -->
