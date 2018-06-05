@@ -1,4 +1,3 @@
-
 var neo4j = require('neo4j-driver').v1;
 var morgan = require('morgan');
 var express = require('express');
@@ -13,9 +12,7 @@ var app = express();
 
 
 const showRouter = express.Router();
-
 showRouter.use(bodyParser.json()); 
-
 showRouter.route('/')
 
 //view Engine
@@ -30,14 +27,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //connect Neo4j with node.js
 var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12345'));
 var session = driver.session();
-
-
 // function Show Movies
 showRouter.post('/movies', (req, res) =>{
+
   session
+
   .run('MATCH(n:Movie) RETURN n ')
    .then(function(result){
-
+    
   var movieArr = [];
 
    result.records.forEach(function(record){
@@ -82,6 +79,10 @@ showRouter.get('/movies', (req, res) =>{
   });
 });
 
+  
+
+app.use('/', router);
+module.exports = app;
 
 
 module.exports = showRouter;

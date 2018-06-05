@@ -35,6 +35,7 @@ var session = driver.session();
 
 
 searchRouter.post('/movies/search', (req, res) =>{
+
     var paramName = req.body.searchMovie;
     session
     
@@ -43,6 +44,8 @@ searchRouter.post('/movies/search', (req, res) =>{
     
     .then(function(result){
     
+      
+
     var movieArr = [];
      result.records.forEach(function(record){
         movieArr.push({
@@ -61,4 +64,9 @@ searchRouter.post('/movies/search', (req, res) =>{
     console.log(err)
     });
   }) 
+  
+
+app.use('/', router);
+module.exports = app;
+
 module.exports = searchRouter;
