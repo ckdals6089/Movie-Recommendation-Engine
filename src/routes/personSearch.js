@@ -38,11 +38,7 @@ descriptionPersonRouter.post('/movies/search/description/person', (req, res) =>{
     
 
     session
-    // .run("MATCH (m:Movie {title:{title}})\
-    // OPTIONAL MATCH (m)<-[r]-(p:Person)\
-    // RETURN m.title AS title, collect([p.name, \
-    // head(split(lower(type(r)), '_')), r.roles]) AS cast\
-    // LIMIT 1", {title:  paramName2 })
+   
     .run("MATCH (p:Person{name:{name}}) -->  (n:Movie)\
      return p.name, n.title, n.tagline, n.released",{name: paramName2})
 
