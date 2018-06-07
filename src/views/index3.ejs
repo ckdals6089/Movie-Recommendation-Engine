@@ -74,13 +74,17 @@
 <table id="table1" style="border-style:double;">
     <tr>
         
-        <th>name</td>
-        <th>Born</th>
+        <th>title</td>
+        <th>name</th>
+        <th>role</th>
+        <th>born</th>
     </tr>
 
     <% movieDescription.forEach(function(description){ %>
         <tr>
-            <td> <%= description.name %> </td>
+                <td> <%= description.title %> </td>
+            <td> <%= description.role %> </td>
+            <td>  <%= description.name %> </td>
             <td>  <%= description.born %> </td>
         </tr>
         <% }) %>

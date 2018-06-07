@@ -33,36 +33,49 @@ var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12
 var session = driver.session();
 
 descriptionRouter.post('/movies/search/description', (req, res) =>{
-   
-  
-
     var paramName2 = req.body.descriptionMovie;
-  
     session
-    
-    .run("MATCH (m:Movie {title:{title}})\
-    OPTIONAL MATCH (m)<-[r]-(p:Person)\
-    RETURN m.title AS title, collect([p.name, \
-    head(split(lower(type(r)), '_')), r.roles]) AS cast\
-    LIMIT 1", {title:  paramName2 })
-   
+    // .run("MATCH (m:Movie {title:{title}})\
+    // OPTIONAL MATCH (m)<-[r]-(p:Person)\
+    // RETURN m.title AS title, collect([p.name, \
+    // head(split(lower(type(r)), '_')), r.roles]) AS cast\
+    // LIMIT 1", {title:  paramName2 })
+    .run("MATCH (n:Movie{title:{title}}) <- [r]- (p:Person)\
+    return n.title, p.name, r.roles, p.born",{title: paramName2})
+
     .then(function(result){
+    
+        var movieArr2 = [];
+         result.records.forEach(function(record){
+            movieArr2.push({
+                title: record._fields[0],
+                role: record._fields[1],
+              name: record._fields[2],
+              born: record._fields[3]
+              
+            });
+        });     
+        res.render('index3', {
+            movieDescription: movieArr2
+        }); 
+        console.log(movieArr2)
         
-        if (_.isEmpty(result.records))
-            return null;
         
-            var record = result.records[0];
-        return new MovieCast(record.get('title'), record.get('cast'))
-        var movieArr = [];
-        record.forEach(function(param){
-            movieArr.push({
-                title:param._fields[0].properties.title,
-                name:param._fields[0].properties.name,
-                job:param._fields[0].properties.job,
-                role:param._fields[0].properties.role
+        // if (_.isEmpty(result.records))
+        //     return null;
+        //     var record = result.records[0];
+        // return new MovieCast(record.get('title'), record.get('cast'))
+        // var movieArr = [];
+        // record.forEach(function(param){
+        //     movieArr.push({
+
+        //         title: param._fields[0].properties.title,
+        //         name: param._fields[0].properties.name,
+        //         job: param._fields[0].properties.job,
+        //         role:  param._fields[0].properties.role
                 
-            })
-        })
+        //     })
+        // })
         // result.records.forEach(function(record){ 
         //     movieArr.push({
         //         title: record._fields[0].properties.title,
@@ -71,10 +84,6 @@ descriptionRouter.post('/movies/search/description', (req, res) =>{
         //         role: record._fields[1].properties.role
         //     })
         // });    
-        res.render('index3', {
-          movieDescription: movieArr
-   });   
-      console.log()
     })
   .catch(function(err){
       console.log(err)
