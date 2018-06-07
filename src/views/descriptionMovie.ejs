@@ -71,20 +71,31 @@
     <input type="submit" value="Submit">
 </form>
 
-<table id="table1" style="border-style:double;">
-    <tr>
-        
-        <th>title</td>
-        <th>name</th>
-        <th>role</th>
-        <th>born</th>
-    </tr>
+<form method="post" action="/movies/search/description/person">
+    <label>Person Description</label>
+    <input type="text" id="txtDescriptionPerson" name="searchPerson"><br>
+    <input type="submit" value="Submit">
+</form>
 
-    <% movieDescription.forEach(function(description){ %>
-        <tr>
-                <td> <%= description.title %> </td>
-            <td> <%= description.role %> </td>
-            <td>  <%= description.name %> </td>
+<table id="table1" style="border-style:double;">
+    
+
+    <tr>
+            <td colspan="5" style="text-align: center"> <%= movieTT %> </td>
+    </tr>
+    <tr>
+            <th>Name</th>
+            <th>Job</th>
+            <th>Role</th>
+            <th>Born</th>
+            
+        </tr>   
+       
+        <tr><% movieDescription.forEach(function(description){ %>
+            
+            <td> <%= description.name %> </td>
+            <td> <%= description.job %> </td>
+            <td>  <%= description.role %> </td>
             <td>  <%= description.born %> </td>
         </tr>
         <% }) %>

@@ -45,7 +45,7 @@ showRouter.post('/movies', (req, res) =>{
           tagline: record._fields[0].properties.tagline
       });
   });     
-  res.render('index', {
+  res.render('showMovie', {
       movies: movieArr
   });
 })
@@ -70,7 +70,7 @@ showRouter.get('/movies', (req, res) =>{
           tagline: record._fields[0].properties.tagline
       });
   });     
-  res.render('index', {
+  res.render('showMovie', {
       movies: movieArr
   });
 })

@@ -10,6 +10,7 @@ var _ = require('lodash');
 const showRouter = require('./routes/movieRouter');
 const searchRouter = require('./routes/movieSearch');
 const descriptionRouter = require('./routes/movieDescription');
+const descriptionPersonRouter = require('./routes/personSearch')
 // const sqlRouter = require('./routes/sqlconnect');
 
 
@@ -34,6 +35,11 @@ app.use(searchRouter)
 
 //Descript Movie Router
 app.use(descriptionRouter)
+
+
+//Descript Movie Router
+app.use(descriptionPersonRouter)
+
 
 //SQL Router
 // app.use(sqlRouter);

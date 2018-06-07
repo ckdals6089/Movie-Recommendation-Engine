@@ -55,7 +55,7 @@ searchRouter.post('/movies/search', (req, res) =>{
           title: record._fields[0].properties.title
         });
     });     
-    res.render('index2', {
+    res.render('searchMovie', {
         moviesearch: movieArr
     }); 
     console.log(movieArr)
