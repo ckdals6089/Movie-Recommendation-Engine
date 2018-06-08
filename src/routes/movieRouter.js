@@ -49,7 +49,7 @@ showRouter.post('/movies', (req, res) =>{
          movies: movieArr
         });
     })
-    console.log(movieArr)
+    console.log("MovieArr "+ movieArr)
     .catch(function(err){
         console.log(err)
     });

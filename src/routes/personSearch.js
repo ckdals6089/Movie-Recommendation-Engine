@@ -58,8 +58,8 @@ descriptionPersonRouter.post('/movies/search/description/person', (req, res) =>{
             personDescription: movieArr2,
             personNN: singleN
         }); 
-        console.log(movieArr2)
-        console.log(singleN)
+        console.log("movieArr2" + movieArr2)
+        console.log("singleN" + singleN)
     })
     .catch(function(err){
       console.log(err)

@@ -55,13 +55,13 @@ descriptionRouter.post('/movies/search/description', (req, res) =>{
             movieDescription: movieArr2,
             movieTT: singleT
         }); 
-        console.log(movieArr2)
-        console.log(singleT)
+        console.log("MovieArr2" + movieArr2)
+        console.log("singleT" + singleT)
     })
   .catch(function(err){
       console.log(err)
-      });
-  }) 
+    });
+}) 
   
 app.use('/', router);
 module.exports = app;

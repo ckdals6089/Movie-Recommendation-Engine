@@ -25,7 +25,8 @@ require('./config/passport.js')(passport);  //passport configuration
 const showRouter = require('./routes/movieRouter');
 const searchRouter = require('./routes/movieSearch');
 const descriptionRouter = require('./routes/movieDescription');
-const descriptionPersonRouter = require('./routes/personSearch')
+const descriptionPersonRouter = require('./routes/personSearch');
+const getGraph = require('./routes/movieGraph');
 
 
 var router = express.Router();
@@ -65,6 +66,9 @@ app.use(descriptionRouter)
 
 //Description Movie Router
 app.use(descriptionPersonRouter)
+
+//get Gragph
+app.use(getGraph)
 
 
 
