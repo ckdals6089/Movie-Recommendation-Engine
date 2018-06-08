@@ -38,14 +38,15 @@
     <h1 id="h1">Movies <a href="/profile" class="btn btn-danger"><span class="fa fa-gear"></span><object align="right" style="font-size:20px">profile</object></a></h1>
 
 <form method="post" action="/movies/search">
-    <label>Search Movie</label>
-    <input type="text" id="txtMovie" name="searchMovie"><br>
+    <label>Search Movie: </label>
+   <input type="text" id="txtMovie" name="searchMovie"><br>
     <input type="submit" value="Submit">
 </form>
 
 <form method="post" action="/movies/search/description">
-    <label>Description</label>
-    <input type="text" id="txtDescription" name="descriptionMovie"><br>
+    <label>Description: </label>
+    <label>"MATCH (n:Movie{title: <input style="text-align: center" type="text" id="txtDescription" name="descriptionMovie"> }) <- [r]- (p:Person)\
+        return n.title, p.name, head(split(lower(type(r)), '_')), r.roles, p.born"</label><br>
     <input type="submit" value="Submit">
 </form>
 

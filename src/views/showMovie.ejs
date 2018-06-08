@@ -34,8 +34,8 @@
     <h1 id="h1">Movies <a href="/profile" class="btn btn-danger"><span class="fa fa-gear"></span><object align="right" style="font-size:20px">profile</object></a></h1>
 
 <form method="post" action="/movies/search">
-    <label>Search Movie</label><br>
-    <input type="text" id="txtMovie" name="searchMovie"><br>
+    <label>Search Movie: </label>
+    <label>"MATCH (n:Movie) WHERE n.title =~ <input style="text-align: center" type="text" id="txtMovie" name="searchMovie"> return n "</label><br>
     <input type="submit" value="Submit">
 </form>
 

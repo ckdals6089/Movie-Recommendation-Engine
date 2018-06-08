@@ -45,8 +45,9 @@
 
 
 <form method="post" action="/movies/search/description/person">
-    <label>Person Description</label>
-    <input type="text" id="txtDescriptionPerson" name="searchPerson"><br>
+    <label>Person Description: </label>
+    <label>"MATCH (p:Person { name: <input style="text-align: center" type="text" id="txtDescriptionPerson" name="searchPerson"> }) -->  (n:Movie)\
+        return p.name, n.title, n.tagline, n.released"</label><br>
     <input type="submit" value="Submit">
 </form>
 
