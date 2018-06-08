@@ -1,5 +1,4 @@
-var Movie = require('../models/Movie');
-var MovieCast = require('../models/MovieCast');
+
 var neo4j = require('neo4j-driver').v1;
 var morgan = require('morgan');
 var express = require('express');
@@ -8,7 +7,6 @@ var bodyParser = require('body-parser');
 var router = express.Router();
 var _ = require('lodash');
 
-
 const hostname = 'localhost';
 var app = express();
 
@@ -16,8 +14,6 @@ var app = express();
 const descriptionRouter = express.Router();
 descriptionRouter.use(bodyParser.json()); 
 descriptionRouter.route('/')
-
-
 
 //view Engine
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +32,7 @@ descriptionRouter.post('/movies/search/description', (req, res) =>{
     
     var paramName2 = req.body.descriptionMovie;
     
-
+    //open session
     session
 
     .run("MATCH (n:Movie{title:{title}}) <- [r]- (p:Person)\
@@ -47,16 +43,12 @@ descriptionRouter.post('/movies/search/description', (req, res) =>{
         var movieT = result.records[0];
         var singleT = movieT.get(0)
         var movieArr2 = [];
-        
          result.records.forEach(function(record){
-          
             movieArr2.push({
-               
                 name: record._fields[1],
                 job: record._fields[2],
                 role: record._fields[3],
                 born: record._fields[4]
-              
             });
         });     
         res.render('descriptionMovie', {

@@ -19,6 +19,7 @@ showRouter.route('/')
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+//Use app(express)
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ exteneded : false}));
@@ -30,59 +31,55 @@ var session = driver.session();
 // function Show Movies
 showRouter.post('/movies', (req, res) =>{
 
+    //open session
   session
 
-  .run('MATCH(n:Movie) RETURN n ')
-   .then(function(result){
-    
-  var movieArr = [];
+  .run('MATCH(n:Movie) RETURN n ') 
 
-   result.records.forEach(function(record){
-      movieArr.push({
-
-          id: record._fields[0].identity.low,
-          title: record._fields[0].properties.title,
-          tagline: record._fields[0].properties.tagline
-      });
-  });     
-  res.render('showMovie', {
-      movies: movieArr
-  });
-})
-.catch(function(err){
-  console.log(err)
-  });
+  .then(function(result){
+      var movieArr = [];
+          result.records.forEach(function(record){
+            movieArr.push({
+            id: record._fields[0].identity.low,
+            title: record._fields[0].properties.title,
+            tagline: record._fields[0].properties.tagline
+            });
+         });     
+        res.render('showMovie', {
+         movies: movieArr
+        });
+    })
+    .catch(function(err){
+        console.log(err)
+    });
 });
 
 // function Show Movies
 showRouter.get('/movies', (req, res) =>{
+
+    //open session
   session
-  .run('MATCH(n:Movie) RETURN n ')
-   .then(function(result){
 
-  var movieArr = [];
+  .run('MATCH(n:Movie) RETURN n ') 
 
-   result.records.forEach(function(record){
-      movieArr.push({
-
-          id: record._fields[0].identity.low,
-          title: record._fields[0].properties.title,
-          tagline: record._fields[0].properties.tagline
-      });
-  });     
-  res.render('showMovie', {
-      movies: movieArr
-  });
-})
-.catch(function(err){
-  console.log(err)
-  });
+  .then(function(result){
+      var movieArr = [];
+          result.records.forEach(function(record){
+            movieArr.push({
+            id: record._fields[0].identity.low,
+            title: record._fields[0].properties.title,
+            tagline: record._fields[0].properties.tagline
+            });
+         });     
+        res.render('showMovie', {
+         movies: movieArr
+        });
+    })
+    .catch(function(err){
+        console.log(err)
+    });
 });
-
-  
 
 app.use('/', router);
 module.exports = app;
-
-
 module.exports = showRouter;

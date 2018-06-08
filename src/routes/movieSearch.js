@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12345'));
 var session = driver.session();
 
-
+//Search Router 
 searchRouter.post('/movies/search', (req, res) =>{
 
     var paramName = req.body.searchMovie;
@@ -44,11 +44,9 @@ searchRouter.post('/movies/search', (req, res) =>{
     
     .then(function(result){
     
-      
-
-    var movieArr = [];
-     result.records.forEach(function(record){
-        movieArr.push({
+      var movieArr = [];
+        result.records.forEach(function(record){
+         movieArr.push({
           id:record._fields[0].identity.low,        
           released: record._fields[0].properties.released,
           tagline: record._fields[0].properties.tagline,
@@ -63,10 +61,37 @@ searchRouter.post('/movies/search', (req, res) =>{
   .catch(function(err){
     console.log(err)
     });
-  }) 
+}) 
+
+searchRouter.get('/movies/search', (req, res) =>{
+
+    var paramName = req.body.searchMovie;
+    session
+    
+    .run("MATCH (n:Movie) WHERE n.title =~ {title} return n ", 
+     {title: '(?i).*' + paramName + '.*'})
+    
+    .then(function(result){
+      var movieArr = [];
+        result.records.forEach(function(record){
+          movieArr.push({
+            id:record._fields[0].identity.low,        
+            released: record._fields[0].properties.released,
+            tagline: record._fields[0].properties.tagline,
+            title: record._fields[0].properties.title
+          });
+        });     
+      res.render('searchMovie', {
+        moviesearch: movieArr
+       }); 
+      console.log(movieArr)
+    })
+    .catch(function(err){
+      console.log(err)
+    });
+}) 
   
 
 app.use('/', router);
 module.exports = app;
-
 module.exports = searchRouter;
