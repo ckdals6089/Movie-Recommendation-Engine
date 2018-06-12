@@ -1,8 +1,6 @@
 <html>
-
     <head>
-        <title>Movie</title>
-        
+        <title>Movie</title>  
     </head>
     
 <style>
@@ -39,7 +37,7 @@
 <form method="post" action="/movies/search">
     <label>Search Movie: </label>
     <label>"MATCH (n:Movie) WHERE n.title =~ <input style="text-align: center" type="text" id="txtMovie" name="searchMovie"> return n "</label><br>
-    <input type="submit" value="Submit">
+    <input type="submit" id= "submitbtn" value="Submit">
 </form>
 
 <table id="table1" style="border-style:double;">
@@ -59,7 +57,7 @@
         <td><%= movie.released %> </td>
         <td>
              <form method="post" action="/movies/clickWatch">
-                <button onclick = "createRel('<%= movie.title %>')"  value="<%= movie.title %>" name="inputClickWatch" >  Watch  </button>
+                <button onclick = "alert('You have watched: ' + '<%= movie.title %>')"  value="<%= movie.title %>" name="inputClickWatch" >  Watch  </button>
             </form>
         </td>
     </tr>
@@ -69,10 +67,7 @@
 <script>
     function myFunction(x) {
         document.getElementById("txtMovie").value = x;
-    }
-    function createRel(y) {   
-        document.getElementById("txtInteresting").value = y;   
-        alert = "ddd"
+        document.getElementById("submitbtn").click();
     }
   
  </script>

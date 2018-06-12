@@ -10,7 +10,7 @@ var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12
 var session = driver.session();
 
 // Load user model
-var Users = require('../models/users');
+var Users = require('../app/models/users');
 
 // load the auth variables
 var auth = require('./auth');
@@ -185,4 +185,3 @@ module.exports = function(passport) {
 		});
 	}));
 };
-
