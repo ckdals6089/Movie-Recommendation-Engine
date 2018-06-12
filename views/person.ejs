@@ -98,7 +98,11 @@
             <td onclick = "clickFunction('<%= desPerson.title %>')"> <%= desPerson.title %> </td>
             <td> <%= desPerson.tagline %> </td>
             <td> <%= desPerson.released %> </td>
-            <td><button value="Watch" id="btnWatch" name="btnWatch">Watch</td>
+            <td>
+                <form method="post" action="/movies/clickWatch">
+                   <button onclick = "alert('You have watched: ' + '<%= desPerson.title %>')"  value="<%= desPerson.title %>" name="inputClickWatch" >  Watch  </button>
+               </form>
+           </td>
             
         </tr>
         <% }) %>

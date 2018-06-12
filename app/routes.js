@@ -177,6 +177,13 @@ module.exports = function(serverApp, passport) {
     });
   });
 
+   //Show user profile page with login information
+   serverApp.get('/viz', isLoggedIn, function(req, res) {
+    res.render('view.ejs', {
+
+    });
+  });
+
   // Logout page 
   serverApp.get('/logout', function(req, res) {
     req.logout();

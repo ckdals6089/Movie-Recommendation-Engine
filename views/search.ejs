@@ -87,7 +87,11 @@
         <td><%= search.title %></td>
         <td><%= search.tagline %> </td>
         <td> <%= search.released %> </td>
-        <td><button value="Watch" id="btnWatch" name="btnWatch" onclick = "">Watch</td>
+        <td>
+            <form method="post" action="/movies/clickWatch">
+               <button onclick = "alert('You have watched: ' + '<%= search.title %>')"  value="<%= search.title %>" name="inputClickWatch" >  Watch  </button>
+           </form>
+       </td>
     </tr>
 <% }) %>
 
