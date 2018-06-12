@@ -4,7 +4,7 @@ module.exports = function(app, passport) {
     var neo4j = require('neo4j-driver').v1;
     var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12345'));
     var neo_session = driver.session();
-
+    var usrID = require('../config/passport')
     // Home Page
     app.get('/', function(req, res) {
         res.render('index.ejs'); // load the index.ejs file
@@ -39,13 +39,16 @@ module.exports = function(app, passport) {
         failureRedirect : '/signup',    //if not, redirect to signup page
         failureFlash : true
     }));
-
-
+    
     // Main page to show after login
     app.get('/movies', isLoggedIn, function(req, res) {
+        
+        var paramName2 = req.body.btnClickWatch;
+       
         neo_session
         .run('MATCH(n:Movie) RETURN n ')
         .then(function(result){
+            
             var movieArr = [];
 
             result.records.forEach(function(record){
@@ -58,11 +61,28 @@ module.exports = function(app, passport) {
             res.render('showMovie', {
                 movies: movieArr
             });
+            
         })
         .catch(function(err){
         console.log(err)
         });
     });
+
+    function createRel(title)  {
+	console.log(usrID + ' ' + title);
+	const insertingUser = session.run(
+		"MATCH (u:User {id: {id}}), (m:Movie {title: {title}}) MERGE (u)-[:WATCHED]->(m)", {id: usrID, title: title}
+	);
+	insertingUser.then(function() {
+		console.log("Successfully created a relationship between the user and the movie.");
+		session.close();
+	})
+	.catch(function(err){
+		console.log(err)
+		session.close();
+	});
+    };
+
 
     //Show user profile page with login information
     app.get('/profile', isLoggedIn, function(req, res) {

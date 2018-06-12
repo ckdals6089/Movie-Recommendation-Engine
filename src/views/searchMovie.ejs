@@ -52,17 +52,23 @@
 
 <table id="table1" style="border-style:double;">
     <tr>
-        <th>ID</th>
         <th>Movie</td>
+        <th>Porster</th>
         <th>Tagline</td>
         <th>Released</td>
+        <th>Watch</th>
     </tr>
     <% moviesearch.forEach(function(search){ %>
     <tr onclick = "myFunction('<%= search.title %>')">
-        <td><%= search.id %> </td>
         <td><%= search.title %></td>
+        <td><img src="http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/<%= search.title %>.jpg"></td>
         <td><%= search.tagline %> </td>
         <td> <%= search.released %> </td>
+        <td>
+                <form method="post" action="/movies/clickWatch">
+                <button onclick = "createRel('<%= movie.title %>')"  value="<%= movie.title %>" name="inputClickWatch" >  Watch  </button>
+                </form>
+     </td> 
     </tr>
     <% }) %>
 
@@ -73,6 +79,7 @@
         document.getElementById("txtDescription").value = x;
         document.getElementById("submitbtn").click();
     }
+    
 </script>
 
 

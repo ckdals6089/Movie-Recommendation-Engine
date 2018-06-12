@@ -55,8 +55,9 @@ descriptionRouter.post('/movies/search/description', (req, res) =>{
             movieDescription: movieArr2,
             movieTT: singleT
         }); 
-        console.log("MovieArr2" + movieArr2)
-        console.log("singleT" + singleT)
+       
+        console.log(movieArr2)
+        console.log(singleT)
     })
   .catch(function(err){
       console.log(err)

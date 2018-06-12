@@ -1,7 +1,10 @@
 <html>
+
     <head>
         <title>Movie</title>
+        
     </head>
+    
 <style>
     #h1 {
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -30,7 +33,7 @@
     }
 </style>
 <body>
-<!-- <div class="jumbotron text-center"> -->
+
     <h1 id="h1">Movies <a href="/profile" class="btn btn-danger"><span class="fa fa-gear"></span><object align="right" style="font-size:20px">profile</object></a></h1>
 
 <form method="post" action="/movies/search">
@@ -41,16 +44,24 @@
 
 <table id="table1" style="border-style:double;">
     <tr>
-        <th>ID</th>
         <th>Movie</td>
+        <th>Poster</th>
         <th>Tagline</td>
+        <th>Released</th>
+        <th>Watch</th>
     </tr>
-
+    
     <% movies.forEach(function(movie){ %>
-    <tr onclick = "myFunction('<%= movie.title %>')">
-        <td ><%= movie.id %> </td>
-        <td ><%= movie.title %></td>
+    <tr >
+        <td  onclick = "myFunction('<%= movie.title %>')", "createRel('<%= movie.title %>')"><%= movie.title %></td>
+        <td><img src="http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/<%= movie.title %>.jpg"></td>
         <td><%= movie.tagline %> </td>
+        <td><%= movie.released %> </td>
+        <td>
+             <form method="post" action="/movies/clickWatch">
+                <button onclick = "createRel('<%= movie.title %>')"  value="<%= movie.title %>" name="inputClickWatch" >  Watch  </button>
+            </form>
+        </td>
     </tr>
     <% }) %>
 </table>
@@ -58,9 +69,14 @@
 <script>
     function myFunction(x) {
         document.getElementById("txtMovie").value = x;
-        document.getElementById("submitbtn").click();
     }
-</script>
+    function createRel(y) {   
+        document.getElementById("txtInteresting").value = y;   
+        alert = "ddd"
+    }
+  
+ </script>
+
+ 
 </body>
-<!-- </div> -->
 </html>

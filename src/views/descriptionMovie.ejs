@@ -46,7 +46,7 @@
 
 <form method="post" action="/movies/search/description/person">
     <label>Person Description: </label>
-    <label>"MATCH (p:Person { name: <input style="text-align: center" type="text" id="txtDescriptionPerson" name="searchPerson"> }) -->  (n:Movie)\
+    <label>"MATCH (p:Person { name: <input style="text-align: center" type="text" id="txtDescriptionPerson" name="searchPerson"> }) -->  (n:Movie)
         return p.name, n.title, n.tagline, n.released"</label><br>
     <input type="submit" value="Submit">
 </form>
@@ -55,12 +55,14 @@
     <tr>
         <td colspan="5" style="text-align: center"> <%= movieTT %> </td>
     </tr>
+
      <tr>
         <th>Name</th>
         <th>Job</th>
         <th>Role</th>
         <th>Born</th>   
     </tr>   
+    
     <tr><% movieDescription.forEach(function(description){ %>    
         <td onclick = "myFunction('<%= description.name %>')"> <%= description.name %> </td>
         <td> <%= description.job %> </td>

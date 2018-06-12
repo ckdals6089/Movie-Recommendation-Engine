@@ -9,6 +9,7 @@ const express = require('express'),
     session = require('express-session'),
     http = require('http'),
     neo4j = require('neo4j-driver').v1,
+    uuid = require('uuid-v4'),
     path = require('path'),
     _ = require('lodash'),
 
@@ -22,12 +23,11 @@ require('./config/passport.js')(passport);  //passport configuration
 
 
 
-const showRouter = require('./routes/movieRouter');
+
 const searchRouter = require('./routes/movieSearch');
 const descriptionRouter = require('./routes/movieDescription');
 const descriptionPersonRouter = require('./routes/personSearch');
-const getGraph = require('./routes/movieGraph');
-
+const clickWatch = require('./routes/clickWatch');
 
 var router = express.Router();
 
@@ -39,7 +39,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //Required elements for passport module
-app.use(session({secret: 'ilovescotchscotchy'}));
+app.use(session({
+    genid: function(req) {return uuid();},
+    secret: 'ilovescotchscotchy'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -54,9 +57,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 //require passport
 require('./routes/routes.js')(app, passport);
 
-//Show Movies Router
-app.use(showRouter)
-
 //Search Movies Router
 app.use(searchRouter)
 
@@ -67,8 +67,8 @@ app.use(descriptionRouter)
 //Description Movie Router
 app.use(descriptionPersonRouter)
 
-//get Gragph
-app.use(getGraph)
+//Create Relationship between User and Movie
+app.use(clickWatch)
 
 
 

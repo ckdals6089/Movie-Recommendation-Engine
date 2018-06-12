@@ -56,7 +56,7 @@ searchRouter.post('/movies/search', (req, res) =>{
     res.render('searchMovie', {
         moviesearch: movieArr
     }); 
-    console.log("MoiveArr" + movieArr)
+    console.log(movieArr)
   })
   .catch(function(err){
     console.log(err)
