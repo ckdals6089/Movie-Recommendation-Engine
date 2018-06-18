@@ -164,6 +164,7 @@ module.exports = function(serverApp, passport) {
       res.render('main', {
         movies: movieArr
       });
+      console.log(usrID);
     })
     .catch(function(err){
       console.log(err)
