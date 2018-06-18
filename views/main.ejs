@@ -36,33 +36,8 @@
             }
 </style>
  <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
-<script>
-    function draw() {
-        var config = {
-            container_id: "viz",
-            server_url: "bolt://127.0.0.1:7687",
-            server_user: "neo4j",
-            server_password: "12345",
-            labels: {
-                "Troll": {
-                    caption: "user_key",
-                    size: "pagerank",
-                    community: "community"
-                }
-            },
-            relationships: {
-                "RETWEETS": {
-                    caption: false,
-                    thickness: "count"
-                }
-            },
-            initial_cypher: "MATCH p=()-[]->() RETURN p"
-        }
-        var viz = new NeoVis.default(config);
-        viz.render();
-    }
-</script>
-<body  onload="draw()">
+
+<body>
 <div>
  
     <h1 id="h1">Movies <a href="/profile" class="btn btn-danger"><span class="fa fa-gear"></span><object align="right" style="font-size:20px">profile</object></a></h1>
@@ -96,7 +71,6 @@
     </tr>
     <% }) %>
 </table>
-<div id="viz"></div>
 <script>
     function myFunction(x) {
         document.getElementById("txtMovie").value = x;
