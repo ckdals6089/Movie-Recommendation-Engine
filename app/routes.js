@@ -2,12 +2,12 @@
 module.exports = function(serverApp, passport) {
   //Neo4j Configuration
   var neo4j = require('neo4j-driver').v1;
-  var driver = neo4j.driver('bolt://127.0.0.1:7687', neo4j.auth.basic('neo4j', '12345'));
+  var driver = neo4j.driver('bolt://192.168.1.211:17687', neo4j.auth.basic('neo4j', 'admin'));
   var neo_session = driver.session();
   var usrID = require('../config/passport');
 
   // Home Page
-  serverApp.get('/', function(req, res) {
+  serverApp.get('/sociallogin', login, function(req, res) {
     res.render('index.ejs'); // load the index.ejs file
   });
 
@@ -20,7 +20,7 @@ module.exports = function(serverApp, passport) {
 
   // process the login form
   serverApp.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/movies',    //if succeed, redirect to profile page
+    successRedirect : '/',    //if succeed, redirect to profile page
     failureRedirect : '/login',    //if not, redirect to signup page
     failureFlash : true
   }));
@@ -146,10 +146,14 @@ module.exports = function(serverApp, passport) {
   });
 
   // Main page to show after login
-  serverApp.get('/movies', isLoggedIn, function(req, res) {
+  serverApp.get('/', function(req, res) {
     neo_session
     
-    .run('MATCH(n:Movie) RETURN n ')
+    .run('MATCH (m:Movie) \
+    OPTIONAL match (m)<-[r:WATCHED]-(u:User) \
+    WITH m, count(u) as num_watch \
+    return m, num_watch \
+    ORDER by num_watch DESC')
     .then(function(result){
       var movieArr = [];
         
@@ -164,24 +168,35 @@ module.exports = function(serverApp, passport) {
       res.render('main', {
         movies: movieArr
       });
-      console.log(usrID);
     })
     .catch(function(err){
       console.log(err)
     });
   });
 
-  //Show user profile page with login information
-  serverApp.get('/profile', isLoggedIn, function(req, res) {
-    res.render('profile.ejs', {
-      user : req.user // get the user out of session and pass to template
-    });
+  //Show Visualization graph of relationship between User and Movie nodes
+  serverApp.get('/visualization', isLoggedIn, function(req, res) {
+    res.render('graphVis.ejs', {});
   });
 
-   //Show user profile page with login information
-   serverApp.get('/viz', isLoggedIn, function(req, res) {
-    res.render('view.ejs', {
-
+  //Show user profile page with login information
+  serverApp.get('/profile', isLoggedIn, function(req, res) {
+    if (usrID.NuserID) {
+      //Create User node in Neo4j Database
+      const insertingUser = neo_session.run(
+        "MERGE (u:User {id : {id}})",{id: usrID.NuserID}
+      );
+      insertingUser.then(function() {
+        console.log("Successfully created the User node (No duplicated node will be created).");
+        neo_session.close();
+      })
+      .catch(function(err){
+        console.log(err)
+        neo_session.close();
+      });
+    }
+    res.render('profile.ejs', {
+      user : req.user // get the user out of session and pass to template
     });
   });
 
@@ -197,7 +212,7 @@ module.exports = function(serverApp, passport) {
   // Google Social Login callback
   serverApp.get('/auth/google/callback', passport.authenticate('google', {
     successRedirect : '/movies',
-    failureRedirect : '/'
+    failureRedirect : '/sociallogin'
   }));
 
   //Connect local account
@@ -227,7 +242,7 @@ module.exports = function(serverApp, passport) {
     
   serverApp.get('/connect/google/callback', passport.authorize('google', {
     successRedirect : '/profile',
-    failureRedirect : '/'
+    failureRedirect : '/sociallogin'
   }));
 
   //Unlink Google account
@@ -248,5 +263,12 @@ function isLoggedIn(req, res, next) {
     return next();
 
   // if they aren't redirect them to the home page
+  res.redirect('/sociallogin');
+}
+
+function login(req, res, next) {
+  if (!req.isAuthenticated())
+    return next();
+  
   res.redirect('/');
 }
