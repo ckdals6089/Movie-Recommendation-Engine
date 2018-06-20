@@ -116,6 +116,7 @@
     </tr>
     <tr>
       <th>Title</th>
+      <th>Poster</th>
       <th>TagLine</th>
       <th>Released</th>
       <th>Watch</th>
@@ -127,6 +128,9 @@
 
         <td onclick="clickFunction('<%= desPerson.title %>')">
           <%= desPerson.title %>
+        </td>
+        <td>
+            <img src="http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/<%= movie.title %>.jpg">
         </td>
         <td>
           <%= desPerson.tagline %>
