@@ -24,7 +24,7 @@
                 server_password: "admin",
                 labels: {
                     "Person": {
-                        caption: "name"
+                        caption: "name"   
                     },
                     "Movie": {
                         caption: "title"
@@ -32,9 +32,13 @@
                 },
 
                 relationships: {
+                    "WATCHED":{
+                        caption: false,
+                        thickness: "count"
+                    }
 
                 },
-                initial_cypher: "MATCH p=()-[]->() RETURN p"
+                initial_cypher: "MATCH p=()-[:WATCHED]->(), (n:Movie) return p,n"
             }
 
             var viz = new NeoVis.default(config);
