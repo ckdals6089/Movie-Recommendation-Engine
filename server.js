@@ -14,6 +14,7 @@ const uuid = require('uuid-v4');
 const DBconfig = require('./config/database.js');
 const port = 3000;
 const hostname = '0.0.0.0';
+const mainRoute = require('./app/mainRoute.js')
 
 //DB configuration
 mongoose.connect(DBconfig.url); //connect to the mongoDB
@@ -22,7 +23,7 @@ require('./config/passport.js')(passport);  //passport configuration
 //Express application setup
 serverApp.use(morgan('dev'));
 serverApp.use(cookieParser());
-serverApp.use(bodyParser());
+//serverApp.use(bodyParser());
 serverApp.use(bodyParser.urlencoded({extended : false}));
 
 //Set view engine to ejs
@@ -31,12 +32,15 @@ serverApp.set('view engine','ejs');
 //Required elements for passport module
 serverApp.use(session({
   genid: function(req) {return uuid();},
-  secret: 'ilovescotchscotchy'
+  secret: 'ilovescotchscotchy',
+  resave: true,
+  saveUninitialized: true
 }));
 
 serverApp.use(passport.initialize());
 serverApp.use(passport.session());
 serverApp.use(flash());
+serverApp.use(mainRoute);
 
 //Routes
 require('./app/routes.js')(serverApp, passport);
