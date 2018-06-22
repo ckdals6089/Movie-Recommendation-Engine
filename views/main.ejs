@@ -9,29 +9,32 @@
 
 <style>
   #body {
-  width:800px;
+  width:90%;
   }
   #div1 {
-  margin-left: 60px;
+  margin-left: 10px;
   float: left;
-  width: 120px;
+  width: 400px;
   }
 
   #div2 {
     float: right;
-    width: 120px;
+    width: 400px;
     }
   #h1 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: 300%;
   }
-
+  #h2 {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  }
   #table1 {
     
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 100px;
+    width: 500px;
+  
   }
 
   #table1 td,
@@ -59,7 +62,7 @@
   #table2 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 100px;
+    width: 500px;
   }
 
   #table2 td,
@@ -106,6 +109,7 @@
   </form>
 
 <div id="div1" >
+  <h2 id="h2">Movie List</h2>
   <table id="table1" style="border-style:double;">
     <tr>
       <th>Movie</td>
@@ -131,7 +135,7 @@
       </td>
       <td rowspan=".3">
         <form><button><i class="fa fa-thumbs-o-up" style="font-size:20px;color:blue"></i></button></form>
-        <form method="post" action="/movies/clickWatch">
+        <form method="post" action="/user">
           <button onclick="" value="<%= movie.title %>" name="inputClickWatch"><i class="fa fa-play" style="font-size:25px"></i></button>
         </form>
         <form><button><i class="fa fa-thumbs-o-down" style="font-size:20px;color:red"></i></button></form>
@@ -144,10 +148,14 @@
 
 
 <div id="div2">
+  <h2 id="h2">Recommendation List</h2>
   <table id="table2">
     <tr>
       <th>Movie</td>
       <th>Poster</th>
+      <th>Tagline</td>
+      <th>Released</th>
+      <th >Watch</th>
     </tr>
 
     <% movies2.forEach(function(movie){ %>
@@ -158,6 +166,19 @@
         <td>
           <img src="http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/<%= movie.title %>.jpg">
         </td>
+        <td>
+        <%= movie.tagline %>
+        </td>
+        <td>
+        <%= movie.released %>
+       </td>
+       <td rowspan=".3">
+        <form><button><i class="fa fa-thumbs-o-up" style="font-size:20px;color:blue"></i></button></form>
+        <form method="post" action="/user">
+          <button onclick="" value="<%= movie.title %>" name="inputClickWatch"><i class="fa fa-play" style="font-size:25px"></i></button>
+        </form>
+        <form><button><i class="fa fa-thumbs-o-down" style="font-size:20px;color:red"></i></button></form>
+      </td>
       </tr>
       <% }) %>
   </table>
