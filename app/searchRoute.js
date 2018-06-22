@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const searchRouter = express.Router();
 
 
+
 var usrID = require('../config/passport');
 var neo4j = require('../config/database');
 var neo_session = neo4j.session;
@@ -163,5 +164,31 @@ searchRouter.route('/person/')
     });
 });
 
+//test search page
+searchRouter.route('/test')
+.get((req, res, next) => {
+  
+  var movieArr = [];
+  neo_session
+    .run('MATCH (m:Movie) return m')
+    .then(function(result){ 
+      result.records.forEach(function(record){
+        movieArr.push({
+          title: record._fields[0].properties.title,
+          tagline: record._fields[0].properties.tagline,
+          released: record._fields[0].properties.released,
+        });
+      });
+        res.render('test', {
+          movies: movieArr,     
+        });
+        console.log(movieArr)
+    })
+    .catch(function(err){
+      console.log(err)
+    });
+})    
+
 
 module.exports = searchRouter;
+
