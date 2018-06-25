@@ -25,14 +25,14 @@ require('./config/passport.js')(passport);  //passport configuration
 serverApp.use(morgan('dev'));
 serverApp.use(cookieParser());
 //serverApp.use(bodyParser());
-serverApp.use(bodyParser.urlencoded({ extended: false }));
+serverApp.use(bodyParser.urlencoded({extended : false}));
 
 //Set view engine to ejs
-serverApp.set('view engine', 'ejs');
+serverApp.set('view engine','ejs');
 
 //Required elements for passport module
 serverApp.use(session({
-  genid: function (req) { return uuid(); },
+  genid: function(req) {return uuid();},
   secret: 'ilovescotchscotchy',
   resave: true,
   saveUninitialized: true

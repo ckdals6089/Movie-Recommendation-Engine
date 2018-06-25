@@ -55,7 +55,7 @@ searchRouter.route('/')
       WHERE NOT(p1-[:WATCHED]->prod2) AND NrOfSharedMovies > 2\
       WITH p1.id AS FirstUserId, p2.id AS SecondUserId, extract(x IN SharedMovies | x.title) AS SharedMovies, prod2 AS RecommendedMovie\
       WHERE p1.id = {id}\
-      RETURN RecommendedMovie', { id: valid_id })
+      RETURN DISTINCT RecommendedMovie', { id: valid_id })
         .then(function (result) {
 
           result.records.forEach(function (record) {
@@ -81,7 +81,6 @@ searchRouter.route('/')
   //Search page
   .post((req, res, next) => {
     var paramName = req.body.searchMovie;
-    var valid_id = usrID.userID;
 
     neo_session
       .run("MATCH (n:Movie) WHERE n.title =~ {title} return n ",
@@ -99,7 +98,7 @@ searchRouter.route('/')
         });
         res.render('search', {
           moviesearch: movieArr,
-          valid: valid_id
+          valid: req.user
         });
       })
       .catch(function (err) {
@@ -129,7 +128,9 @@ searchRouter.route('/description/')
         });
         res.render('description', {
           movieDescription: movieArr2,
-          movieTT: singleT
+          movieTT: singleT,
+          valid: req.user
+
         });
       })
       .catch((err) => {
@@ -141,8 +142,7 @@ searchRouter.route('/description/')
 searchRouter.route('/person/')
   .post((req, res, next) => {
     var paramName2 = req.body.searchPerson;
-    var valid_id = usrID.userID;
-
+    
     neo_session
       .run("MATCH (p:Person{name:{name}}) -->  (n:Movie)\
     return p.name, n.title, n.tagline, n.released", { name: paramName2 })
@@ -162,7 +162,7 @@ searchRouter.route('/person/')
         res.render('person', {
           personDescription: movieArr2,
           personNN: singleN,
-          valid: valid_id
+          valid: req.user
         });
       })
       .catch((err) => {

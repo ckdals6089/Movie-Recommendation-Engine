@@ -6,9 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     /* Remove the navbar's default rounded borders and increase the bottom margin */
 
@@ -30,37 +30,16 @@
       padding: 25px;
     }
 
-
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-
-    .row.content {
-      height: 450px
-    }
-
-    /* Set gray background color and 100% height */
-
-    .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {
-        height: auto;
-      }
+    .grid {
+      display: grid;
+      /* define the number of grid columns */
+      /* grid-template-columns: repeat( auto-fit, minmax(250px, 1fr)); */
+      grid-template-columns: 1fr 1fr 1fr
     }
   </style>
 </head>
 
 <body>
-
   <div class="jumbotron">
     <div class="container text-center">
       <h1>Movies</h1>
@@ -71,9 +50,8 @@
       </form>
     </div>
   </div>
-
   <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+    <div class="grid-container grid-container--fit">
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
           <li class="active">
@@ -84,37 +62,42 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="/sociallogin">
-              <span class="glyphicon glyphicon-user"></span> Log-in </a>
-          </li>
-          <li>
-            <a href="/visualization">
-              <span class="glyphicon glyphicon"></span> Graph</a>
-          </li>
+          <% if (valid) { %>
+            <li>
+              <a href="/user">
+                <span class="glyphicon glyphicon-user"></span> Profile </a>
+            </li>
+            <% } else { %>
+              <li>
+                <a href="/sociallogin">
+                  <span class="glyphicon glyphicon-user"></span> Log-in </a>
+              </li>
+              <% } %>
+                <li>
+                  <a href="/visualization">
+                    <span class="glyphicon glyphicon"></span> Graph</a>
+                </li>
         </ul>
       </div>
     </div>
   </nav>
-
-  <div class="container">
+  <div class="grid-container--fit">
     <div class="row">
-      <div class="col-sm-6" class="col-7">
+      <div class="col-md-6">
         <div class="panel panel-primary">
           <div class="panel-heading">Movie List</div>
           <div class="panel-body">
             <table class="table table-hover">
               <tr>
-                <th>Movie</td>
-                  <th>Poster</th>
-                  <th>Tagline</td>
-                    <th>Released</th>
-                    <th>Watch</th>
+                <th>Movie</th>
+                <th>Poster</th>
+                <th>Tagline</th>
+                <th>Released</th>
+                <th>Watch</th>
               </tr>
-
               <% movies.forEach(function(movie){ %>
                 <tr>
-                  <td onclick="myFunction('<%= movie.title %>')" , "createRel('<%= movie.title %>')">
+                  <td onclick='myFunction("<%= movie.title %>")' , "createRel('<%= movie.title %>')">
                     <%= movie.title %>
                   </td>
                   <td>
@@ -151,21 +134,21 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6" class="col-7">
+      <div class="col-md-6">
         <div class="panel panel-danger">
           <div class="panel-heading">Recommanded Movies</div>
           <div class="panel-body">
             <table class="table table-hover">
               <tr>
-                <th>Movie</td>
-                  <th>Poster</th>
-                  <th>Tagline</td>
-                    <th>Released</th>
-                    <th>Watch</th>
+                <th>Movie</th>
+                <th>Poster</th>
+                <th>Tagline</th>
+                <th>Released</th>
+                <th>Watch</th>
               </tr>
               <% movies2.forEach(function(movie){ %>
                 <tr>
-                  <td onclick="myFunction('<%= movie.title %>')" , "createRel('<%= movie.title %>')">
+                  <td onclick='myFunction("<%= movie.title %>")' , "createRel('<%= movie.title %>')">
                     <%= movie.title %>
                   </td>
                   <td>
@@ -203,17 +186,14 @@
     </div>
   </div>
   <br>
-
   <footer class="container-fluid text-center">
-    <p>MOSA</p>
+    <p>Copyright &copy 2003-2018 MOS. All rights reserved.</p>
   </footer>
-
   <script>
     function myFunction(x) {
       document.getElementById("txtMovie").value = x;
       document.getElementById("submitbtn").click();
     }
-
   </script>
 </body>
 

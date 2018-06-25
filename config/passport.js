@@ -48,12 +48,9 @@ module.exports = (passport) => {
               newUser.local.email = email;
               newUser.local.password = newUser.generateHash(password);
               newUser.local.data = null;
-
               newUser.save((err) => {
                 if (err) { throw err; }
-
                 module.exports.NuserID = newUser.id;
-
                 return done(null, newUser);
               });
             }
@@ -92,14 +89,12 @@ module.exports = (passport) => {
     }));
 
   //Google social login
-
   passport.use(new googleSt({
     clientID: auth.googleLoginConfig.googleAuth.clientID,
     clientSecret: auth.googleLoginConfig.googleAuth.clientSecret,
     callbackURL: auth.googleLoginConfig.googleAuth.callbackURL,
     passReqToCallback: true
   },
-
     (req, token, refreshToken, profile, done) => {
       process.nextTick(() => {
         //check if the user is already loggin in
@@ -114,7 +109,6 @@ module.exports = (passport) => {
                 user.google.name = profile.displayName;
                 user.google.email = profile.emails[0].value;
                 user.google.data = null;
-
                 user.save((err) => {
                   if (err) { throw err; }
                   return done(null, user);
@@ -123,18 +117,14 @@ module.exports = (passport) => {
               return done(null, user);
             } else {
               const newUser = new Users();
-
               newUser.google.id = profile.id;
               newUser.google.token = token;
               newUser.google.name = profile.displayName;
               newUser.google.email = profile.emails[0].value;
               newUser.google.data = null;
-
               newUser.save((err) => {
                 if (err) { throw err; }
-
                 module.exports.NuserID = newUser.id;
-
                 return done(null, newUser);
               });
             }
@@ -147,7 +137,6 @@ module.exports = (passport) => {
           user.google.name = profile.displayName;
           user.google.email = profile.emails[0].value;
           user.google.data = null;
-
           user.save((err) => {
             if (err) { throw err; }
             return done(null, user);

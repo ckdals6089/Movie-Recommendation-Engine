@@ -29,6 +29,13 @@
       background-color: #f2f2f2;
       padding: 25px;
     }
+    
+    .grid {
+      display: grid;
+
+      /* define the number of grid columns */
+      grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+    }
   </style>
 </head>
 
@@ -71,6 +78,7 @@
       <% movies.forEach(function(movie1){ %>
         <div class="col-sm-3" style="height:500px">
           <div class="panel panel-primary">
+            <div class="panel-heading">
               <%= movie1.title %>
             </div>
             <div style="text-align:center" class="panel-body">
