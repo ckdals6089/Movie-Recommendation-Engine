@@ -10,28 +10,21 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-
     .row.content {
       height: 1500px
     }
-
     /* Set gray background color and 100% height */
-
     .sidenav {
       background-color: #f1f1f1;
       height: 100%;
     }
-
     /* Set black background color, white text and some padding */
-
     footer {
       background-color: #555;
       color: white;
       padding: 15px;
     }
-
     /* On small screens, set height to 'auto' for sidenav and grid */
-
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
@@ -41,22 +34,18 @@
         height: auto;
       }
     }
-
     #viz {
       width: 900px;
       height: 700px;
     }
-
     .grid {
       display: grid;
-
       /* define the number of grid columns */
       grid-template-columns: repeat( auto-fit, minmax(250px, 1fr));
     }
   </style>
   <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
 </head>
-
 <body onload="draw()">
   <div class="grid-container grid-container--fit">
     <div class="row content">
@@ -111,6 +100,9 @@
       viz.render();
     }
   </script>
+  <footer class="container-fluid text-center">
+    <p>Copyright &copy 2003-2018 MOS. All rights reserved.</p>
+  </footer>
 </body>
 
 </html>

@@ -29,12 +29,12 @@
       background-color: #f2f2f2;
       padding: 25px;
     }
-    
+
     .grid {
       display: grid;
 
       /* define the number of grid columns */
-      grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+      grid-template-columns: repeat( auto-fit, minmax(250px, 1fr));
     }
   </style>
 </head>
@@ -46,17 +46,22 @@
       <h1>Movies</h1>
       <p>Movie Recommandation Website</p>
     </div>
+    <br>
+    <br>
+    <br>
   </div>
 
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li class="active">
-            <a href="/">Home</a>
+          <li>
+            <a href="/">
+              <span class="glyphicon glyphicon-"></span> Home</a>
           </li>
-          <li class="active">
-            <a href="/test">Test</a>
+          <li>
+            <a href="/test">
+              <span class="glyphicon glyphicon-"></span>Test</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -66,7 +71,7 @@
           </li>
           <li>
             <a href="/visualization">
-              <span class="glyphicon glyphicon"></span> Graph</a>
+              <span class="glyphicon glyphicon-align-left"></span> Graph</a>
           </li>
         </ul>
       </div>
@@ -76,7 +81,7 @@
   <div class="container-fluid">
     <div class="row">
       <% movies.forEach(function(movie1){ %>
-        <div class="col-sm-3" style="height:500px">
+        <div class="col-lg-3" style="height:500px">
           <div class="panel panel-primary">
             <div class="panel-heading">
               <%= movie1.title %>
@@ -93,14 +98,8 @@
         <% }) %>
     </div>
   </div>
-
-
   <footer class="container-fluid text-center">
-    <p>Online Store Copyright</p>
-    <form class="form-inline">Get deals:
-      <input type="email" class="form-control" size="50" placeholder="Email Address">
-      <button type="button" class="btn btn-danger">Sign Up</button>
-    </form>
+    <p>Copyright &copy 2003-2018 MOS. All rights reserved.</p>
   </footer>
 
 </body>
