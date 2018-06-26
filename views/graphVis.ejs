@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
@@ -10,99 +9,145 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {
-      height: 1500px
-    }
+    .row.content {height: 1500px}
+    
     /* Set gray background color and 100% height */
     .sidenav {
       background-color: #f1f1f1;
       height: 100%;
     }
+    
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
       padding: 15px;
     }
+    
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
         padding: 15px;
       }
-      .row.content {
-        height: auto;
+      .row.content {height: auto;} 
+    }
+      #viz {
+          width: 900px;
+          height: 700px;
       }
-    }
-    #viz {
-      width: 900px;
-      height: 700px;
-    }
-    .grid {
-      display: grid;
-      /* define the number of grid columns */
-      grid-template-columns: repeat( auto-fit, minmax(250px, 1fr));
-    }
+   
   </style>
   <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
 </head>
-<body onload="draw()">
-  <div class="grid-container grid-container--fit">
-    <div class="row content">
-      <div class="col-sm-3 sidenav">
-        <h4>Movies</h4>
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active">
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="#section2">Movie</a>
-          </li>
-          <li>
-            <a href="#section3">User</a>
-          </li>
-          <li>
-            <a href="#section3">Actor</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-sm-9" id="viz">
-      </div>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <h4>Movies</h4>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="/">Home</a></li>
+        <li onclick="draw()"><a>Thickness (관계의 두께)</a></li>
+        <li onclick="draw1()"><a>Node Size (노드 크기)</a></li>
+        <li onclick="draw2()"><a>Community (색 구분)</a></li>
+      </ul>
+    </div>
+
+    <div class="col-sm-9" id="viz">
     </div>
   </div>
-  <footer class="container-fluid">
-    <p>Footer Text</p>
-  </footer>
-  <script>
-    function draw() {
-      var config = {
-        container_id: "viz",
-        server_url: "bolt://192.168.1.211:17687",
-        server_user: "neo4j",
-        server_password: "admin",
-        labels: {
-          "Person": {
-            caption: "name"
-          },
-          "Movie": {
-            caption: "title"
-          }
+</div>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>
+<script>
+function draw() {
+    var config = {
+      container_id: "viz",
+      server_url: "bolt://192.168.1.211:17687",
+      server_user: "neo4j",
+      server_password: "admin",
+      labels: {
+        "Person": {
+            caption: "name"   
         },
-        relationships: {
-          "WATCHED": {
+        "Movie": {
+            caption: "title"
+        }
+      },
+
+      relationships: {
+        "WATCHED":{
             caption: false,
             thickness: "count"
-          }
-        },
-        initial_cypher: "MATCH p=()-[:WATCHED]->(), (n:Movie) return p,n"
-      }
-      var viz = new NeoVis.default(config);
-      viz.render();
+        }
+      },
+      initial_cypher: "MATCH p=()-[:WATCHED]->(), (n:Movie) return p,n"
     }
-  </script>
-  <footer class="container-fluid text-center">
-    <p>Copyright &copy 2003-2018 MOS. All rights reserved.</p>
-  </footer>
-</body>
 
+    var viz = new NeoVis.default(config);
+    viz.render();
+  }
+
+function draw1() {
+    var config = {
+      container_id: "viz",
+      server_url: "bolt://54.85.95.124:33762",
+      server_user: "neo4j",
+      server_password: "sling-cleansers-tugs",
+      labels: {
+        "Actor": {
+          caption: "name"   
+        },
+        "Movie": {
+          caption: "title",
+          size: "imdbVotes"
+        }
+      },
+
+      relationships: {
+        "ACTED_IN":{
+          caption: true
+        }
+      },
+      initial_cypher: "MATCH p=(n:Movie)-[:IN_GENRE]->() RETURN p LIMIT 100"
+    }
+
+    var viz = new NeoVis.default(config);
+    viz.render();
+  }
+
+  function draw2() {
+    var config = {
+      container_id: "viz",
+      server_url: "bolt://54.85.95.124:33762",
+      server_user: "neo4j",
+      server_password: "sling-cleansers-tugs",
+      labels: {
+        "Movie": {
+          caption: "title",
+          size: "imdbVotes",
+          community: "community"
+        },
+        "GENRE": {
+          caption: "name"  
+        }
+      },
+
+      relationships: {
+        "IN_GENRE":{
+          caption: true
+        }
+      },
+      initial_cypher: "MATCH p=(n:Movie)-[:IN_GENRE]->() RETURN p LIMIT 100"
+    }
+    
+    var viz1 = new NeoVis.default(config);
+    viz1.render();
+  }
+</script>
+
+</body>
 </html>
