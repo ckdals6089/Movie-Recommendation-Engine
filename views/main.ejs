@@ -105,7 +105,11 @@
                     <%= movie.title %>
                   </td>
                   <td>
-                    <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/<%= movie.title %>.jpg?raw=true'>  
+                    <% if (movie.title == "Frost/Nixon") { %>
+                      <img height="100" width="70" src='https://github.com/folowpig/Neo4j-Movie-Recommendation/blob/master/images/Frost:Nixon.jpg?raw=true'>
+                      <% } else { %>
+                        <img height="100" width="70" src='https://github.com/folowpig/Neo4j-Movie-Recommendation/blob/master/images/<%= movie.title %>.jpg?raw=true'>
+                        <% } %>
                   </td>
                   <td>
                     <%= movie.tagline %>
@@ -157,7 +161,7 @@
                     <%= movie.title %>
                   </td>
                   <td>
-                    <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/<%= movie.title %>.jpg?raw=true'>  
+                    <img height="100" width="70" src='https://github.com/folowpig/Neo4j-Movie-Recommendation/blob/master/images/<%= movie.title %>.jpg?raw=true'>
                   </td>
                   <td>
                     <%= movie.tagline %>
