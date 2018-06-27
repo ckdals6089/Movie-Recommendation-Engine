@@ -120,13 +120,13 @@
                     <%= desPerson.title %>
                   </td>
                   <td>
-                      <% if (movie.title == "Frost/Nixon") { %>
-                        <!-- <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/Frost:Nixon.jpg?raw=true'> -->
-                        <img height="100" width="70" src='https://github.com/folowpig/Neo4j-Movie-Recommendation/blob/master/images/Frost:Nixon.jpg?raw=true'>
-                        <% } else { %>
-                          <!-- <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/<%= search.title %>.jpg?raw=true'> -->
-                          <img height="100" width="70" src='https://github.com/folowpig/Neo4j-Movie-Recommendation/blob/master/images/<%= desPerson.title %>.jpg?raw=true'>
-                          <% } %>
+                    <% if (desPerson.title == "Frost/Nixon") { %>
+                      <!-- <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/Frost:Nixon.jpg?raw=true'> -->
+                      <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/Frost:Nixon.jpg'>
+                      <% } else { %>
+                        <!-- <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/<%= desPerson.title %>.jpg?raw=true'> -->
+                        <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/<%= desPerson.title %>.jpg'>
+                        <% } %>
                   </td>
                   <td>
                     <%= desPerson.tagline %>

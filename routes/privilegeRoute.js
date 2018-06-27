@@ -59,7 +59,7 @@ privilegeRouter.route('/prefer')
     var len = req.body.like.length;
     var like = req.body.like.slice(0, 2);
     var title = req.body.like.slice(2, len);
-    
+
     neo_session
       .run("MATCH (u1:User), (m1:Movie)\
     WHERE u1.id = {id} and m1.title = {title}\
@@ -74,5 +74,7 @@ privilegeRouter.route('/prefer')
         console.log(err);
       })
   })
+
+
 
 module.exports = privilegeRouter;
