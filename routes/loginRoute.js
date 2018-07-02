@@ -33,7 +33,7 @@ module.exports = (serverApp, passport) => {
 
   // process the signup form
   serverApp.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/test',    //if succeed, redirect to profile page
+    successRedirect : '/initChoose',    //if succeed, redirect to profile page
     failureRedirect : '/signup',    //if not, redirect to signup page
     failureFlash : true
   }));
