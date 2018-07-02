@@ -3,7 +3,7 @@ module.exports = (serverApp, passport) => {
 
   var neo4j = require('../config/configuration');
   var neo_session = neo4j.databaseConfig.session;
-  var usrID = require('../config/passport');
+  var pass = require("../config/passport");
 
   // Home Page
   serverApp.get('/sociallogin', login, (req, res) => {
@@ -14,14 +14,14 @@ module.exports = (serverApp, passport) => {
   // show the login form
   serverApp.get('/login', (req, res) => {
     // render the page and pass in any flash data if it exists
-    res.render('login.ejs', { message: req.flash('loginMessage') });
+    res.render('login.ejs', { message: req.flash('loginMessage') }); 
   });
 
   // process the login form
   serverApp.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/',    //if succeed, redirect to home page
-    failureRedirect: '/login',    //if not, redirect to signup page
-    failureFlash: true
+    successRedirect : '/',    //if succeed, redirect to home page
+    failureRedirect : '/login',    //if not, redirect to signup page
+    failureFlash : true
   }));
 
   // Signup Page
@@ -33,28 +33,34 @@ module.exports = (serverApp, passport) => {
 
   // process the signup form
   serverApp.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/test',    //if succeed, redirect to choose movie page
-    failureRedirect: '/signup',    //if not, redirect to signup page
-    failureFlash: true
+    successRedirect : '/test',    //if succeed, redirect to profile page
+    failureRedirect : '/signup',    //if not, redirect to signup page
+    failureFlash : true
   }));
 
   // Logout page 
   serverApp.get('/logout', (req, res) => {
+    neo_session.close();
     req.logout();
     res.redirect('/');
   });
 
   // Google Social Login
-  serverApp.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+  serverApp.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email']}));
 
   // Google Social Login callback
   serverApp.get('/auth/google/callback', passport.authenticate('google', {
-    successRedirect: '/user',
-    failureRedirect: '/sociallogin'
-  }));
+    failureRedirect : '/sociallogin'
+  }), (req, res) => {
+    if(pass.check === true) {
+      res.redirect('/')
+    } else {
+      res.redirect('/test');
+    }
+  });
 
   //Show Visualization graph of relationship between User and Movie nodes
-  serverApp.get('/visualization', /* isLoggedIn, */(req, res) => {
+  serverApp.get('/visualization', /* isLoggedIn, */ (req, res) => {
     res.render('graphVis.ejs', {});
   });
 };
@@ -72,6 +78,6 @@ module.exports.isLoggedIn = (req, res, next) => {
 function login(req, res, next) {
   if (!req.isAuthenticated())
     return next();
-
+  
   res.redirect('/user');
 }
