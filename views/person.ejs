@@ -73,10 +73,12 @@
             <a href="/">
               <span class="glyphicon glyphicon-"></span> Home</a>
           </li>
-          <li>
-            <a href="/test">
-              <span class="glyphicon glyphicon-"></span>Test</a>
-          </li>
+          <% if (!valid) { %>
+            <li>
+              <a href="/initChoose">
+                <span class="glyphicon glyphicon-"></span>Test</a>
+            </li>
+          <% } %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if (valid) { %>
@@ -121,12 +123,10 @@
                   </td>
                   <td>
                     <% if (desPerson.title == "Frost/Nixon") { %>
-                      <!-- <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/Frost:Nixon.jpg?raw=true'> -->
                       <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/Frost:Nixon.jpg'>
-                      <% } else { %>
-                        <!-- <img height="100" width="70" src='https://github.com/ckdals6089/InternProject/blob/master/Images/<%= desPerson.title %>.jpg?raw=true'> -->
-                        <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/<%= desPerson.title %>.jpg'>
-                        <% } %>
+                    <% } else { %>
+                      <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/<%= desPerson.title %>.jpg'>
+                    <% } %>
                   </td>
                   <td>
                     <%= desPerson.tagline %>
@@ -137,7 +137,7 @@
                   <td rowspan=".3">
                     <% if (valid) { %>
                       <form method="post" action="/prefer">
-                        <button value="1 <%= desPerson.title %>" name="like" onclick="goback()">
+                        <button value="1 <%= desPerson.title %>" name="like">
                           <i class="fa fa-thumbs-o-up" style="font-size:22.5px;color:blue"></i>
                         </button>
                       </form>
@@ -147,7 +147,7 @@
                         </button>
                       </form>
                       <form method="post" action="/prefer">
-                        <button value="-1<%= desPerson.title %>" name="like" onclick="goback()">
+                        <button value="-1<%= desPerson.title %>" name="like">
                           <i class="fa fa-thumbs-o-down" style="font-size:22.5px;color:red"></i>
                         </button>
                       </form>
@@ -167,10 +167,6 @@
       document.getElementById("txtMovie").value = x;
       document.getElementById("submitbtn").click();
     }
-    function goback() {
-      window.history.go(-1);
-    }
-
   </script>
   <footer class="container-fluid text-center">
     <p>Copyright &copy 2003-2018 MOS. All rights reserved.</p>
