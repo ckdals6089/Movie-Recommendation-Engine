@@ -26,14 +26,6 @@
       cursor: pointer;
     }
 
-    /* Set black background color, white text and some padding */
-
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-
     /* On small screens, set height to 'auto' for sidenav and grid */
 
     @media screen and (max-width: 767px) {
@@ -46,11 +38,15 @@
       }
     }
 
+    #viz {
+      width: 900px;
+      height: 700px;
+    }
   </style>
   <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
 </head>
 
-<body>
+<body onload="draw()">
 
   <div class="container-fluid">
     <div class="row content">
@@ -77,9 +73,6 @@
     </div>
   </div>
 
-  <footer class="container-fluid">
-    <p>Footer Text</p>
-  </footer>
   <script>
     function draw() {
       var config = {
@@ -95,7 +88,6 @@
             caption: "title"
           }
         },
-
         relationships: {
           "WATCHED": {
             caption: false,
@@ -116,7 +108,7 @@
         server_user: "neo4j",
         server_password: "sling-cleansers-tugs",
         labels: {
-          "Actor": {
+          "GENRE": {
             caption: "name"
           },
           "Movie": {
@@ -124,13 +116,12 @@
             size: "imdbVotes"
           }
         },
-
         relationships: {
-          "ACTED_IN": {
-            caption: true
+          "IN_GENRE": {
+            caption: false
           }
         },
-        initial_cypher: "MATCH p=(n:Movie)-[:IN_GENRE]->() RETURN p LIMIT 100"
+        initial_cypher: "MATCH p=(n:Movie)-[:IN_GENRE]->() RETURN p LIMIT 50"
       }
 
       var viz = new NeoVis.default(config);
@@ -153,17 +144,16 @@
             caption: "name"
           }
         },
-
         relationships: {
           "IN_GENRE": {
-            caption: true
+            caption: false
           }
         },
-        initial_cypher: "MATCH p=(n:Movie)-[:IN_GENRE]->() RETURN p LIMIT 100"
+        initial_cypher: "MATCH p=(n:Movie)-[:IN_GENRE]->() RETURN p LIMIT 50"
       }
 
-      var viz1 = new NeoVis.default(config);
-      viz1.render();
+      var viz = new NeoVis.default(config);
+      viz.render();
     }
   </script>
 
