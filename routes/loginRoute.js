@@ -55,7 +55,7 @@ module.exports = (serverApp, passport) => {
     if(pass.check === true) {
       res.redirect('/')
     } else {
-      res.redirect('/test');
+      res.redirect('/initChoose');
     }
   });
 
