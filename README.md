@@ -1,4 +1,4 @@
-# Neo4jVisualization
+# Movie Recommandation Engine
 
 ## Quick Start
 ### 1. Setup
@@ -33,7 +33,7 @@ $ nodemon
 
 [***3.1 Install MongoDB Community Edition***](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-linux/)
 
-***3.2run MongoDB server***
+***3.2 run MongoDB server***
 
 ```
 mongod --dbpath /home/gmcui/Apps/mongodb/data/db --port 37017 --bind_ip 0.0.0.0
