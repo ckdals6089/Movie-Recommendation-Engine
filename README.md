@@ -13,15 +13,15 @@ $ npm install
 * Default ID is 'neo4j' and you need to set password as '12345'.
 * Install the Movies dataset with `:play movies`, click the statement, and hit the triangular "Run" button.
 * Clone this project from GitHub.
-* Install MongoDB using following terminal command:
+* Install MySQL using following terminal command:
 
 ```
-$ brew install mongodb
+$ npm install mysql
 ```
-* Run 'mongod' on the other terminal to run MongoDB server.
+* Run 'Mysql' on the other terminal to run MongoDB server.
 
 ```
-$ mongod
+$ mysql -u root -p
 ```
 * Go to the project path and run 'nodemon' on the terminal.
 
@@ -29,18 +29,14 @@ $ mongod
 $ nodemon
 ```
 
-### 3. MongoDB
+### 3. MySQL
 
-[***3.1 Install MongoDB Community Edition***](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-linux/)
+[***3.1 Install MySQLDB Community Edition***](https://bitnami.com/stack/wamp)
 
-***3.2 run MongoDB server***
+* Download Bitnami WAMP 5.6.36-2
 
-```
-mongod --dbpath /home/gmcui/Apps/mongodb/data/db --port 37017 --bind_ip 0.0.0.0
-```
+***3.2 run MySQL server***
 
-***3.3 Begin using MongoDB***
-
-```
-mongo --host 192.168.1.211:37017
-```
+* C:\Bitnami\wampstack-5.6.36-2\mysql\bin>mysql -u root -p
+* execute manager-windows in the Bitnami Folder
+* Start 'MySQL Database'
