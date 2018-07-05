@@ -1,7 +1,6 @@
 # Movie Recommandation Engine
 
-## Quick Start
-### 1. Setup
+## Setup
 
 ```
 $ npm install
@@ -31,9 +30,9 @@ $ npm install
     "uuid-v4": "~0.1.0"
 ```
 
-### 2. MySQL Server For Windows 
+## Download MySQL Server For Windows 
 
-[***2.1 Install Bitnami which is MySQL DB Server***](https://bitnami.com/stack/wamp)
+[***Install Bitnami which is MySQL DB Server***](https://bitnami.com/stack/wamp)
 
 
 * Install MySQL using following Command Prompt command:
@@ -44,7 +43,7 @@ $ npm install mysql
 * Download Bitnami WAMP 5.6.36-2 ver. 
 * Set MySQL Password '123456'
 
-***2.2 run MySQL server***
+***run MySQL server***
 ```
  C:\Bitnami\wampstack-5.6.36-2\mysql\bin>mysql -u root -p
  password: 123456
@@ -53,7 +52,7 @@ $ npm install mysql
 * Start 'MySQL Database'
 
 
-### 3. Run locally
+## Run Movie Recommendation Website locally
 
 * Run 'Mysql' on the other Command Prompt to run MySQL server.
 
