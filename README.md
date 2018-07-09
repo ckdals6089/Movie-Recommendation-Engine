@@ -1,67 +1,64 @@
-# Movie Recommandation Engine
+# Neo4jVisualization
 
-## Setup
+## Quick Start
+### 1. Basic Setup
+* Following list of programs are needed in order to run this demo
+    * Neo4j (Server or Desktop)
+    * Node.js
+    * MariaDB
 
+### 2. Neo4j
+* Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
+* Default ID is 'neo4j' and you need to set password as 'admin'.
+* Download the Movies dataset with `:play movies`, click the 'CREATE' statement, and hit the triangular "Run" button.
+
+### 3. MariaDB
+
+[***3.1 Install MariaDB***](https://downloads.mariadb.org/mariadb/10.3.8/)
+
+* If you are using Mac and have Homebrew installed on your computer, then you can install using following command:
+
+```
+brew install mariadb
+```
+* If your computer does not have Homebrew installed, then try to follow the steps in this [***link***](https://mariadb.com/kb/en/library/installing-mariadb-server-pkg-packages-on-macos/)
+
+***3.2 Run MariaDB server***
+
+```
+mysql.server start
+```
+
+***3.3 Begin using MariaDB***
+
+```
+mysql -u root
+```
+***3.4 Change the root password***
+* root password need to be changed to 'admin'
+
+```sql
+mysql> FLUSH PRIVILEGES;
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'admin';
+```
+***3.5 Creating Database***
+```sql
+mysql> CREATE DATABASE IF NOT EXISTS UserInfo;
+```
+
+***3.4 Creating a Table***
+```sql
+mysql> USE UserInfo
+mysql> CREATE TABLE IF NOT EXISTS Users (id INT AUTO_INCREMENT PRIMARY KEY, profileid VARCHAR(30), token VARCHAR(200), email VARCHAR(30), password VARCHAR(100))
+```
+
+### 4. Node.js
+* Clone this project from GitHub, and install necessary modules by running the following command in the project directory.
 ```
 $ npm install
 ```
-* Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
-* Default ID is 'neo4j' and you need to set password as '12345'.
-* Install the Movies dataset with `:play movies`, click the statement, and hit the triangular "Run" button.
-* Clone this project from GitHub.
-* Install all of dependencies
-```
-    "bcrypt-nodejs": "latest",
-    "body-parser": "~1.18.3",
-    "connect-flash": "~0.1.1",
-    "cookie-parser": "~1.4.3",
-    "ejs": "~2.6.1",
-    "express": "~4.16.3",
-    "express-session": "~1.15.6",
-    "lodash": "~4.17.10",
-    "method-override": "~2.3.10",
-    "morgan": "~1.9.0",
-    "mysql": "^2.15.0",
-    "neo4j-driver": "~1.6.1",
-    "passport": "0.4.0",
-    "passport-google-oauth": "~0.1.5",
-    "passport-local": "~1.0.0",
-    "passport-twitter": "1.0.4",
-    "uuid-v4": "~0.1.0"
-```
-
-## Download MySQL Server For Windows 
-
-[***Install Bitnami which is MySQL DB Server***](https://bitnami.com/stack/wamp)
-
-
-* Install MySQL using following Command Prompt command:
-```
-$ npm install mysql
+* Go to the project path and run 'npm start' on the terminal.
 
 ```
-* Download Bitnami WAMP 5.6.36-2 ver. 
-* Set MySQL Password '123456'
-
-***run MySQL server***
-```
- C:\Bitnami\wampstack-5.6.36-2\mysql\bin>mysql -u root -p
- password: 123456
-```
-* execute manager-windows in the Bitnami Folder
-* Start 'MySQL Database'
-
-
-## Run Movie Recommendation Website locally
-
-* Run 'Mysql' on the other Command Prompt to run MySQL server.
-
-```
-$ mysql -u root -p
-```
-* execute manager-windows in the Bitnami Folder
-* Go to the project path and run 'nodemon' on Command Prompt.
-
-```
-$ nodemon
+$ npm start
 ```
