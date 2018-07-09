@@ -12,41 +12,35 @@
 * Default ID is 'neo4j' and you need to set password as 'admin'.
 * Download the Movies dataset with `:play movies`, click the 'CREATE' statement, and hit the triangular "Run" button.
 
-### 3. MariaDB
+### 3. MySQL Server For Windows 
 
-[***3.1 Install MariaDB***](https://downloads.mariadb.org/mariadb/10.3.8/)
 
-* If you are using Mac and have Homebrew installed on your computer, then you can install using following command:
+[***3.1 Download Bitnami (MySQL server)***](https://bitnami.com/stack/wamp)
 
+
+* Download Bitnami WAMP 5.6.36-2 ver. 
+* Set MySQL Password '123456'
+
+***3.2 install MySQL server***
+* Install MySQL using following Command Prompt command:
 ```
-brew install mariadb
-```
-* If your computer does not have Homebrew installed, then try to follow the steps in this [***link***](https://mariadb.com/kb/en/library/installing-mariadb-server-pkg-packages-on-macos/)
-
-***3.2 Run MariaDB server***
-
-```
-mysql.server start
+$ npm install mysql
 ```
 
-***3.3 Begin using MariaDB***
+***3.3 run MySQL server***
+```
+ C:\Bitnami\wampstack-5.6.36-2\mysql\bin>mysql -u root -p
+ password: 123456
+```
+* execute manager-windows in the Bitnami Folder
+* Start 'MySQL Database'
 
-```
-mysql -u root
-```
-***3.4 Change the root password***
-* root password need to be changed to 'admin'
-
-```sql
-mysql> FLUSH PRIVILEGES;
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'admin';
-```
-***3.5 Creating Database***
+***3.4 Creating Database***
 ```sql
 mysql> CREATE DATABASE IF NOT EXISTS UserInfo;
 ```
 
-***3.4 Creating a Table***
+***3.5 Creating a Table***
 ```sql
 mysql> USE UserInfo
 mysql> CREATE TABLE IF NOT EXISTS Users (id INT AUTO_INCREMENT PRIMARY KEY, profileid VARCHAR(30), token VARCHAR(200), email VARCHAR(30), password VARCHAR(100))
