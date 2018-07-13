@@ -5,7 +5,7 @@
 * Following list of programs are needed in order to run this demo
     * Neo4j (Server or Desktop)
     * Node.js
-    * MariaDB
+    * MySQL
 
 ### 2. Neo4j
 * Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
@@ -32,7 +32,7 @@ $ npm install mysql
  C:\Bitnami\wampstack-5.6.36-2\mysql\bin>mysql -u root -p
  password: 123456
 ```
-* execute manager-windows in the Bitnami Folder
+* Execute manager-windows in the Bitnami Folder
 * Start 'MySQL Database'
 
 ***3.4 Creating Database***
