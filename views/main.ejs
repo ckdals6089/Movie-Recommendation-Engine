@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
@@ -58,12 +59,6 @@
             <a href="/">
               <span class="glyphicon glyphicon-"></span> Home</a>
           </li>
-          <% if (!valid) { %>
-            <li>
-              <a href="/initChoose">
-                <span class="glyphicon glyphicon-"></span>Test</a>
-            </li>
-            <% } %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if (valid) { %>
@@ -107,7 +102,7 @@
                     </td>
                     <td>
                       <% if (movie.title == "Frost/Nixon") { %>
-                        <img height="120" width="80" src='/images/Frost:Nixon.jpg'>
+                        <img height="120" width="80" src='/images/FrostNixon.jpg'>
                         <% } else { %>
                           <img height="120" width="80" src='/images/<%= movie.title %>.jpg'>
                           <% } %>
@@ -163,9 +158,9 @@
                     </td>
                     <td>
                       <% if (movie.title == "Frost/Nixon") { %>
-                        <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/Frost:Nixon.jpg'>
+                        <img height="120" width="80" src='/images/FrostNixon.jpg'>
                         <% } else { %>
-                          <img height="120" width="80" src='http://git.mobile-os.com/mos/Neo4jVisualization/raw/v0.0.002/public/images/<%= movie.title %>.jpg'>
+                          <img height="120" width="80" src='/images/<%= movie.title %>.jpg'>
                           <% } %>
                             <td>
                               <%= movie.tagline %>
@@ -200,9 +195,6 @@
     </div>
   </div>
   <br>
-  <footer class="container-fluid text-center">
-    <p>Copyright &copy 2003-2018 MOS. All rights reserved.</p>
-  </footer>
   <script>
     function myFunction(x) {
       document.getElementById("txtMovie").value = x;
