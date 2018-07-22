@@ -1,4 +1,3 @@
-# Neo4jVisualization
 
 ## Quick Start
 ### 1. Basic Setup
