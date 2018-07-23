@@ -4,45 +4,52 @@
 * Following list of programs are needed in order to run this demo
     * Neo4j (Server or Desktop)
     * Node.js
-    * MySQL
+    * MariaDB
 
 ### 2. Neo4j
 * Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
 * Default ID is 'neo4j' and you need to set password as 'admin'.
 * Download the Movies dataset with `:play movies`, click the 'CREATE' statement, and hit the triangular "Run" button.
 
-### 3. MySQL Server For Windows 
+### 3. MariaDB
 
+[***3.1 Install MariaDB***](https://downloads.mariadb.org/mariadb/10.3.8/)
 
-[***3.1 Download Bitnami (MySQL server)***](https://bitnami.com/stack/wamp)
+* If you are using __Windows__, then download .zip package file and unzip the package in the desired directory.
+* If your computer does not have Homebrew installed, then try to follow the steps in this [***link***](https://mariadb.com/kb/en/library/installing-mariadb-server-pkg-packages-on-macos/)
 
+***3.2 Run MariaDB server***
 
-* Download Bitnami WAMP 5.6.36-2 ver. 
-* Set MySQL Password '123456'
+* For __Windows__ users, go to directory where mysqld.exe is located and execute following command
 
-***3.2 install MySQL server***
-* Install MySQL using following Command Prompt command:
 ```
-$ npm install mysql
+mysqld.exe --console
 ```
 
-***3.3 run MySQL server***
-```
- C:\Bitnami\wampstack-5.6.36-2\mysql\bin>mysql -u root -p
- password: 123456
-```
-* Execute manager-windows in the Bitnami Folder
-* Start 'MySQL Database'
+***3.3 Begin using MariaDB***
 
-***3.4 Creating Database***
+* For __Windows__ users, go to directory where mysql.exe is located to execute following command
+
+```
+mysql -u root
+```
+
+***3.4 Change the root password***
+* root password need to be changed to 'admin'
+
+```sql
+mysql> FLUSH PRIVILEGES;
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'admin';
+```
+***3.5 Creating Database***
 ```sql
 mysql> CREATE DATABASE IF NOT EXISTS UserInfo;
 ```
 
-***3.5 Creating a Table***
+***3.4 Creating a Table***
 ```sql
 mysql> USE UserInfo
-mysql> CREATE TABLE IF NOT EXISTS Users (id INT AUTO_INCREMENT PRIMARY KEY, profileid VARCHAR(30), token VARCHAR(200), email VARCHAR(30), password VARCHAR(100))
+mysql> CREATE TABLE IF NOT EXISTS Users (id INT AUTO_INCREMENT PRIMARY KEY, profileid VARCHAR(30), token VARCHAR(200), email VARCHAR(30), password VARCHAR(100));
 ```
 
 ### 4. Node.js
