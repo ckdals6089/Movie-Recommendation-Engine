@@ -4,7 +4,7 @@
 * Following list of programs are needed in order to run this demo
     * Neo4j (Server or Desktop)
     * Node.js
-    * MariaDB
+    * Mysql
 
 ### 2. Neo4j
 * Start Neo4j ([Download & Install](http://neo4j.com/download)) locally and open the [Neo4j Browser](http://localhost:7474).
@@ -18,7 +18,7 @@
 * If you are using __Windows__, then download .zip package file and unzip the package in the desired directory.
 * If your computer does not have Homebrew installed, then try to follow the steps in this [***link***](https://mariadb.com/kb/en/library/installing-mariadb-server-pkg-packages-on-macos/)
 
-***3.2 Run MariaDB server***
+***3.2 Run mysql server***
 
 * For __Windows__ users, go to directory where mysqld.exe is located and execute following command
 
@@ -26,7 +26,7 @@
 mysqld.exe --console
 ```
 
-***3.3 Begin using MariaDB***
+***3.3 Begin using mysql***
 
 * For __Windows__ users, go to directory where mysql.exe is located to execute following command
 
