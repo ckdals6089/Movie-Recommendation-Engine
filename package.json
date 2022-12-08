@@ -9,7 +9,7 @@
   "license": "ISC",
   "main": "server.js",
   "dependencies": {
-    "express": "~4.16.3",
+    "express": "~4.17.3",
     "ejs": "~2.6.1",
     "passport": "0.4.0",
     "passport-local": "~1.0.0",
